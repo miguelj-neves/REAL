@@ -359,7 +359,7 @@ int main(int argc, char** argv)
     for (i = 0; i < Nst; i++) {
         TGB[i] = (TRIGB*)malloc(sizeof(TRIGB) * Nps);
     }
-    fprintf(stderr, "Assigned TGB size\n")
+    fprintf(stderr, "Assigned TGB size\n");
     for (i = 0; i < Nst; i++) {
         for (j = 0; j < Nps; j++) {
             TGB[i][j].trigp = 1.0e8;
