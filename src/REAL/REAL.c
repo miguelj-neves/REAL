@@ -2277,7 +2277,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 psweig = psweig + weig;
                 ptemp = ptrig0[i][0][j];
                 sused[ll] = ptrig0[i][1][j];
-                fprintf(stderr, "np0_start: %d,ptrig0: %lf, sused: %lf\n",  np0_start[i],ptrig0[i][1][j], sused[ll]);
+                fprintf(stderr, "np0_start: %d,ptrig0: %lf, sused: %lf\n",  np0_end[i],ptrig0[i][1][j], sused[ll]);
                 break;
             }
             ll = ll + 1;
@@ -2295,7 +2295,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 }
             }
             //fprintf(stderr, "flag1: %d\n", flag1);
-            //if ((strig0[i][1][j]==-1) || (flag1==1)){
+            if ((strig0[i][1][j]==-1) || (flag1==1)){
             // if corresponding j for p gives 0 or is a j used in p
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][0][j] - ptemp) > dtps && strig0[i][0][j] > ts_pre_b && strig0[i][0][j] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][0][j] - ts_cal;
@@ -2308,7 +2308,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                     }
                     break;
                 }
-            //}
+            }
         }
         //fprintf(stderr, "S counted: %d\n", scount);
     }
