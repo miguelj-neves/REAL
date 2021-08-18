@@ -1885,7 +1885,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     // Sort S phases by S time but keep starting index saved
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
-            if (tgb[i][j].trigp==0) {
+            if (tgb[i][j].trigp<=0) {
                 temp_index[i][j]=-1;
             }
             else {
@@ -1900,7 +1900,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     tgb[i][j].trigs = tgb[i][k].trigs;
                     tgb[i][j].weights = tgb[i][k].weights;
                     tgb[i][j].amps = tgb[i][k].amps;
-                    temp_index[i][j]=k;
+                    temp_index[i][j] = (double)k;
                     if (tgb[i][k].trigp==0) {
                         temp_index[i][j]=-1;
                     }
