@@ -1934,6 +1934,8 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     // New sorting
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
+            fprintf(stderr,"array1: %d, %d, %lf\n", i, j, array1[i][0][j]);
+            fprintf(stderr,"array2: %d, %d, %lf\n", i, j, array2[i][0][j]);
             for (k = (j + 1); k < n; ++k) {
                 if (array1[i][0][j] > array1[i][0][k]) {
                     a = array1[i][0][j];
