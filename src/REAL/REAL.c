@@ -1799,14 +1799,14 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     double a, b, c, as, bs, cs;
     double **temp_index, **temp_indexp;
 
-    fprintf(stderr,"Allocating\n");
+
     temp_index = (double**)malloc(sizeof(double*) * m);
     temp_indexp = (double**)malloc(sizeof(double*) * m);
     for (i = 0; i < m; i++) {
         temp_index[i] = (double*)malloc(sizeof(double) * n);
         temp_indexp[i] = (double*)malloc(sizeof(double) * n);
     }
-    fprintf(stderr,"Allocated\n");
+
     // sorting both p and s phases by p time.
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
@@ -1835,6 +1835,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
+    fprintf(stderr,"Sorted P\n");
     // Make P picks array
     for (i = 0; i < m; i++) {
         array1[i][0][0] = tgb[i][0].trigp;
@@ -1865,7 +1866,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
-
+    fprintf(stderr,"Made P array\n");
     // Sort S phases by S time but keep starting index saved
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
@@ -1897,6 +1898,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
 
         }
     }
+    fprintf(stderr,"Sorted S\n");
 
     // Make S picks array
     for (i = 0; i < m; i++) {
