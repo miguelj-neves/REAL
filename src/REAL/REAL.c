@@ -1994,7 +1994,7 @@ void DeleteOne(double*** array, int Nst0, int Nps0, int Nloc)
         array[Nst0][0][i] = array[Nst0][0][i + 1];
         array[Nst0][1][i] = array[Nst0][1][i + 1];
     }
-    array[Nst0][Nps0 - 1] = 1.0e8;
+    array[Nst0][0][Nps0 - 1] = 1.0e8;
 }
 
 void Sortpscounts(double** pscounts0, int np)
