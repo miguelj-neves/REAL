@@ -339,10 +339,10 @@ int main(int argc, char** argv)
     } else {
         strcpy(input, argv[6]);
     }
-    fprintf(stderr, "Assign station information\n");
+
     ST = (STATION*)malloc(sizeof(STATION) * Nst);
     Nst = Readstation(input, ST, Nst);
-
+    fprintf(stderr, "Read station information\n");
     /* read triggers */
     if (igrid == 0) {
         strcpy(dir, argv[6]);
