@@ -364,12 +364,6 @@ int main(int argc, char** argv)
 
     for (i = 0; i < Nst; i++) {
         for (j = 0; j < Nps; j++) {
-            //TGP[i][j].trig = 1.0e8;
-            //TGP[i][j].weight = 0.0;
-            //TGP[i][j].amp = 0.0;
-            //TGS[i][j].trig = 1.0e8;
-            //TGS[i][j].weight = 0.0;
-            //TGS[i][j].amp = 0.0;
             TGB[i][j].trigp = 1.0e8;
             TGB[i][j].weightp = 0.0;
             TGB[i][j].ampp = 0.0;
@@ -985,14 +979,14 @@ int main(int argc, char** argv)
         free(strig0[i]);
         free(pamp0[i]);
         free(samp0[i]);
-        free(TGP[i]);
-        free(TGS[i]);
+        free(TGB[i]);
+        //free(TGS[i]);
     }
     for (i = 0; i < nnn; i++)
         free(pscounts[i]);
     free(pscounts);
-    free(TGP);
-    free(TGS);
+    free(TGB);
+    //free(TGS);
     free(ptrig);
     free(ptrig0);
     free(strig0);
