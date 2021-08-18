@@ -180,7 +180,7 @@ void SortTriggers0(TRIGB**, double***, double***, double**, double**,
 //      double**, double**, int, int);
 void DeleteOne(double***, int, int, int);
 int DetermineNprange(double***, double, int, int);
-void DetermineNps0range(double***, double**, double, double, double, double,
+void DetermineNps0range(double***, double***, double, double, double, double,
     int, int);
 int ReselectFinal(SELECT*, int);
 void ReselectClear(CLEARUP*, int, double);
