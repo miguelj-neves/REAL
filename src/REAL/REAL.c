@@ -1822,7 +1822,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
 {
   // Only sorting the P phases
     int i, j, k;
-    double a, b, c, as, ab, ac;
+    double a, b, c, as, bs, cs;
     double** temp_index, temp_indexp;
     temp_index = (double**)malloc(sizeof(double*) * m);
     temp_indexp = (double**)malloc(sizeof(double*) * m);
@@ -1848,9 +1848,9 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     as = tgb[i][j].trigs;
                     bs = tgb[i][j].weights;
                     cs = tgb[i][j].amps;
-                    tgb[i][j].trigs = tgs[i][k].trigs;
-                    tgb[i][j].weights = tgs[i][k].weights;
-                    tgb[i][j].amps = tgs[i][k].amps;
+                    tgb[i][j].trigs = tgb[i][k].trigs;
+                    tgb[i][j].weights = tgb[i][k].weights;
+                    tgb[i][j].amps = tgb[i][k].amps;
                     tgb[i][k].trigs = as;
                     tgb[i][k].weights = bs;
                     tgb[i][k].amps = cs;
@@ -1871,7 +1871,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     array1[i][1][j] = temp_indexp[i][j];
                     pamp[i][j] = tgb[i][j].ampp;
                     pweight[i][j] = tgb[i][j].weightp;
-                    array1[i][j - 1] = 1.0e8;
+                    array1[i][0][j - 1] = 1.0e8;
                     pamp[i][j - 1] = 0.0;
                     pweight[i][j - 1] = 0.0;
                 } else {
@@ -1934,7 +1934,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     array2[i][1][j] = temp_index[i][j];
                     samp[i][j] = tgb[i][j].amps;
                     sweight[i][j] = tgb[i][j].weights;
-                    array2[i][j - 1] = 1.0e8;
+                    array2[i][0][j - 1] = 1.0e8;
                     samp[i][j - 1] = 0.0;
                     sweight[i][j - 1] = 0.0;
                 } else {
