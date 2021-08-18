@@ -2277,7 +2277,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 psweig = psweig + weig;
                 ptemp = ptrig0[i][0][j];
                 sused[ll] = ptrig0[i][1][j];
-                fprintf(stderr, "ptrig0: %lf, sused: %lf\n", ptrig0[i][1][j], sused[ll]);
+                //fprintf(stderr, "ptrig0: %lf, sused: %lf\n", ptrig0[i][1][j], sused[ll]);
                 break;
             }
             ll = ll + 1;
@@ -2289,7 +2289,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
             flag1 = 0;
             for (ll = 0; ll < usize; ll++){
-                fprintf(stderr, "strig0: %lf, sused: %lf\n", strig0[i][1][j], sused[ll]);
+                //fprintf(stderr, "strig0: %lf, sused: %lf\n", strig0[i][1][j], sused[ll]);
                 if (strig0[i][1][j]==sused[ll]){
                     flag1 == 1;
                 }
