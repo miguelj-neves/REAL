@@ -522,15 +522,11 @@ int main(int argc, char** argv)
     for (k = 0; k < nnn; k++) {
         pscounts[k] = (double*)malloc(11 * sizeof(double));
     }
-    fprintf(stderr, "Safe 1\n");
+
     np0_start = (int*)malloc(sizeof(int) * Nst);
-    fprintf(stderr, "Safe 2\n");
     np0_end = (int*)malloc(sizeof(int) * Nst);
-    fprintf(stderr, "Safe 3\n");
     ns0_start = (int*)malloc(sizeof(int) * Nst);
-    fprintf(stderr, "Safe 4\n");
     ns0_end = (int*)malloc(sizeof(int) * Nst);
-    fprintf(stderr, "Safe 5\n");
 
     told = 0.0;
     mmm = 0;
@@ -540,10 +536,12 @@ int main(int argc, char** argv)
     if (latref0 < -999 && lonref0 < -999)
         inoref = 1;
     Maxt0 = Find_max(ptrig, Nst, Nps);
+    fprintf(stderr, "Safe 1\n");
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
+        fprintf(stderr, "Safe 2\n");
         if (fabs(tpmin0 - 1.0e8) < 1)
             break;
         lonref = ST[m].stlo;
@@ -566,6 +564,7 @@ int main(int argc, char** argv)
         tsmax = tpmin0 + (GCarc0 * 111.19 / vs0) + nrt * stw;
 
         Nps2 = DetermineNprange(ptrig, tpmax, Nst, Nps);
+        fprintf(stderr, "Safe 3\n");
 
         /*if (tpmin < 0.0)
             tpmin = 0.0;
@@ -577,7 +576,7 @@ int main(int argc, char** argv)
             tsmax = MAXTIME;
 
         DetermineNps0range(ptrig0, strig0, tpmin, tpmax, tsmin, tsmax, Nst, NNps);
-
+        fprintf(stderr, "Safe 4\n");
         for (k = 0; k < nnn; k++) {
             for (l = 0; l < 11; l++) {
                 pscounts[k][l] = 0.0;
@@ -620,6 +619,7 @@ int main(int argc, char** argv)
             }
 #pragma omp barrier
         }
+        fprintf(stderr, "Safe 5\n");
         // only output the resolution file for the first effective event (the first
         // pick should be true)
         if (ires == 1) {
