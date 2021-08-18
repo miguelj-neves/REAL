@@ -1840,19 +1840,13 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
 
     // Make P picks array
     for (i = 0; i < m; i++) {
-        fprintf(stderr,"Inside first for\n");
         array1[i][0][0] = tgb[i][0].trigp;
-        fprintf(stderr,"tgb no problem\n");
         array1[i][1][0] = temp_indexp[i][0];
-        fprintf(stderr,"temp_indexp no problem\n");
         pamp[i][0] = tgb[i][0].ampp;
         pweight[i][0] = tgb[i][0].weightp;
         for (j = 1; j < n; j++) {
-            fprintf(stderr,"Inside second for\n");
             if (tgb[i][j].trigp - tgb[i][j - 1].trigp < ptw) {
-                fprintf(stderr,"Inside first if\n");
                 if (tgb[i][j].weightp > tgb[i][j - 1].weightp) {
-                    fprintf(stderr,"Higher weight\n");
                     array1[i][0][j] = tgb[i][j].trigp;
                     array1[i][1][j] = temp_indexp[i][j];
                     pamp[i][j] = tgb[i][j].ampp;
@@ -1867,7 +1861,6 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     pweight[i][j] = 0.0;
                 }
             } else {
-                fprintf(stderr,"Inside else\n");
                 array1[i][0][j] = tgb[i][j].trigp;
                 array1[i][1][j] = temp_indexp[i][j];
                 pamp[i][j] = tgb[i][j].ampp;
@@ -1875,7 +1868,6 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
-    fprintf(stderr,"Made P array\n");
     // Sort S phases by S time but keep starting index saved
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
@@ -1907,7 +1899,6 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
 
         }
     }
-    fprintf(stderr,"Sorted S\n");
 
     // Make S picks array
     for (i = 0; i < m; i++) {
@@ -1939,6 +1930,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
+    fprintf(stderr,"S array made\n");
     // New sorting
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
@@ -1973,6 +1965,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
+    fprintf(stderr,"New sorting done\n");
 }
 
 void DeleteOne(double*** array, int Nst0, int Nps0, int Nloc)
