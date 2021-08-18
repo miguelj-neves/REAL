@@ -549,8 +549,14 @@ int main(int argc, char** argv)
         }
 
         tpmin = tpmin0 - 0.5*(GCarc0 * 111.19 / vp0) - nrt * ptw;
+        if (tpmin < 0){
+            tpmin=1.0e-8
+        }
         tpmax = tpmin0 + (GCarc0 * 111.19 / vp0) + nrt * ptw;
         tsmin = tpmin0 - 0.5*(GCarc0 * 111.19 / vs0) - nrt * stw;
+        if (tsmin < 0){
+            tsmin=1.0e-8
+        }
         tsmax = tpmin0 + (GCarc0 * 111.19 / vs0) + nrt * stw;
         fprintf(stderr,"tpmin: %lf, tpmax: %lf, tsmin: %lf, tsmax: %lf\n",tpmin, tpmax, tsmin,tsmax);
 
@@ -1636,6 +1642,9 @@ double Find_min(double*** array, int n1, int n2)
                 amin = array[i][0][j];
             }
         }
+    }
+    if (amin<0){
+        amin = 1.0e8;
     }
     return amin;
 }
