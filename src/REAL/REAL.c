@@ -2252,7 +2252,8 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         ll = 0;
         usize = np0_end[i] - np0_start[i];
         sused = (double*)malloc(usize * sizeof(double));
-        fprintf(stderr, "Allocated sused\n");
+        //fprintf(stderr, "Allocated sused\n");
+        fprintf(stderr, "np0_start: %d, np0_end: %d\n", np0_start, np0_end);
         for (j = np0_start[i]; j < np0_end[i]; j++) {
             if (ptrig0[i][0][j] > tp_pre_b && ptrig0[i][0][j] < tp_pre_e && GCarc < GCarc0) {
                 torg[ps] = ptrig0[i][0][j] - tp_cal;
@@ -2267,7 +2268,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             }
             ll = ll + 1;
         }
-        fprintf(stderr, "P counted: %d\n", pcount);
+        //fprintf(stderr, "P counted: %d\n", pcount);
         // dtps: to remove some false S picks (they may be P picks but wrongly
         // identified as S picks, it happens!)
         fprintf(stderr, "ns0_start: %d, ns0_end: %d\n", ns0_start, ns0_end);
@@ -2294,7 +2295,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 }
             }
         }
-        fprintf(stderr, "S counted: %d\n", scount);
+        //fprintf(stderr, "S counted: %d\n", scount);
     }
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
