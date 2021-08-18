@@ -2291,7 +2291,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             for (ll = 0; ll < usize; ll++){
                 fprintf(stderr, "strig0: %lf, sused: %lf\n", strig0[i][1][j], sused[ll]);
                 if (strig0[i][1][j]<=sused[ll]+0.1 && strig0[i][1][j]>=sused[ll]-0.1){
-                    flag1 == 1;
+                    flag1 = 1;
                 }
             }
             fprintf(stderr, "flag1: %d\n", flag1);
