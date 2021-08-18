@@ -533,6 +533,7 @@ int main(int argc, char** argv)
     if (latref0 < -999 && lonref0 < -999)
         inoref = 1;
     Maxt0 = Find_max(ptrig, Nst, Nps);
+    fprintf(stderr,"Maxt0: %lf\n",Maxt0);
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
         Nps = DetermineNp(ptrig, Nst, Nps);
