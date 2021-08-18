@@ -150,6 +150,7 @@ typedef struct triggb {
     double trigs;
     double weights;
     double amps;
+    double weighte;
 } TRIGB;
 
 typedef struct stationinfo {
@@ -361,6 +362,7 @@ int main(int argc, char** argv)
             TGB[i][j].trigs = 1.0e8;
             TGB[i][j].weights = 0.0;
             TGB[i][j].amps = 0.0;
+            TGB[i][j].weighte = 0.0;
         }
     }
 
@@ -374,7 +376,7 @@ int main(int argc, char** argv)
             test = 0;
             for (j = 0; j < Nps; j++) {
                 if (fscanf(fp, "%lf %lf %lf %lf %lf %lf", &TGB[i][j].trigp, &TGB[i][j].weightp,
-                        &TGB[i][j].ampp, &TGB[i][j].trigs, &TGB[i][j].weights, &TGB[i][j].amps)
+                        &TGB[i][j].ampp, &TGB[i][j].trigs, &TGB[i][j].weights, &TGB[i][j].amps,&TGB[i][j].weighte)
                     == EOF)
                     test = 1;
                 if (TGB[i][j].trigp > MAXTIME)
@@ -427,7 +429,7 @@ int main(int argc, char** argv)
     if (igrid == 1) {
         strcpy(input, argv[8]);
         if ((TB = malloc(sizeof(TTT) * Ntb)) == NULL) {
-            fprintf(stderr, "malloc memory error for TTT\n");
+            //fprintf(stderr, "malloc memory error for TTT\n");
             exit(-1);
         }
         Ntb = Readttime(input, TB, Ntb);
@@ -954,8 +956,10 @@ int main(int argc, char** argv)
     free(ns0_start);
     free(ns0_end);
     for (i = 0; i < Nst; i++) {
-        free(ptrig[i]);
-        free(ptrig0[i]);
+        free(ptrig[i][0]);
+        free(ptrig[i][1]);
+        free(ptrig0[i][0]);
+        free(ptrig0[i][1]);
         free(strig0[i][0]);
         free(strig0[i][1]);
         free(strig0[i]);
@@ -1806,7 +1810,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
 {
   // Only sorting the P phases
     int i, j, k;
-    double a, b, c, as, bs, cs;
+    double a, b, c, d, as, bs, cs, ds;
     double **temp_index, **temp_indexp;
 
 
@@ -1826,15 +1830,19 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     a = tgb[i][j].trigp;
                     b = tgb[i][j].weightp;
                     c = tgb[i][j].ampp;
+                    d = tgb[i][j].weighte;
                     tgb[i][j].trigp = tgb[i][k].trigp;
                     tgb[i][j].weightp = tgb[i][k].weightp;
                     tgb[i][j].ampp = tgb[i][k].ampp;
+                    tgb[i][j].weighte = tgb[i][k].weighte;
                     tgb[i][k].trigp = a;
                     tgb[i][k].weightp = b;
                     tgb[i][k].ampp = c;
+                    tgb[i][k].weighte = d;
                     as = tgb[i][j].trigs;
                     bs = tgb[i][j].weights;
                     cs = tgb[i][j].amps;
+                    //ds = tgb[i][j].weighte;
                     tgb[i][j].trigs = tgb[i][k].trigs;
                     tgb[i][j].weights = tgb[i][k].weights;
                     tgb[i][j].amps = tgb[i][k].amps;
@@ -1854,7 +1862,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
         pweight[i][0] = tgb[i][0].weightp;
         for (j = 1; j < n; j++) {
             if (tgb[i][j].trigp - tgb[i][j - 1].trigp < ptw) {
-                if (tgb[i][j].weightp > tgb[i][j - 1].weightp) {
+                if (tgb[i][j].weighte > tgb[i][j - 1].weighte) {
                     array1[i][0][j] = tgb[i][j].trigp;
                     array1[i][1][j] = temp_indexp[i][j];
                     pamp[i][j] = tgb[i][j].ampp;
@@ -1917,7 +1925,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
         sweight[i][0] = tgb[i][0].weights;
         for (j = 1; j < n; j++) {
             if (tgb[i][j].trigs - tgb[i][j - 1].trigs < stw) {
-                if (tgb[i][j].weights > tgb[i][j - 1].weights) {
+                if (tgb[i][j].weighte > tgb[i][j - 1].weighte) {
                     array2[i][0][j] = tgb[i][j].trigs;
                     array2[i][1][j] = temp_index[i][j];
                     samp[i][j] = tgb[i][j].amps;
@@ -1975,6 +1983,13 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
+
+    for (i = 0; i < m; i++) {
+        free(temp_index[i]);
+        free(temp_indexp[i]);
+    }
+    free(temp_index);
+    free(temp_indexp);
 }
 
 void DeleteOne(double*** array, int Nst0, int Nps0, int Nloc)
@@ -2354,6 +2369,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     }
     free(torg);
     free(stagap);
+    free(sused);
 }
 
 /*
