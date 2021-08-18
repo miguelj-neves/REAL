@@ -550,12 +550,12 @@ int main(int argc, char** argv)
 
         tpmin = tpmin0 - 0.5*(GCarc0 * 111.19 / vp0) - nrt * ptw;
         if (tpmin < 0){
-            tpmin=1.0e-8
+            tpmin=1.0e-8;
         }
         tpmax = tpmin0 + (GCarc0 * 111.19 / vp0) + nrt * ptw;
         tsmin = tpmin0 - 0.5*(GCarc0 * 111.19 / vs0) - nrt * stw;
         if (tsmin < 0){
-            tsmin=1.0e-8
+            tsmin=1.0e-8;
         }
         tsmax = tpmin0 + (GCarc0 * 111.19 / vs0) + nrt * stw;
         fprintf(stderr,"tpmin: %lf, tpmax: %lf, tsmin: %lf, tsmax: %lf\n",tpmin, tpmax, tsmin,tsmax);
@@ -563,10 +563,10 @@ int main(int argc, char** argv)
         Nps2 = DetermineNprange(ptrig, tpmax, Nst, Nps);
         // printf("%d %lf %lf\n",Nps,told,tpmin0);
         fprintf(stderr,"Nprange\n");
-        if (tpmin < 0.0)
+        /*if (tpmin < 0.0)
             tpmin = 0.0;
         if (tsmin < 0.0)
-            tsmin = 0.0;
+            tsmin = 0.0;*/
         if (tpmax > MAXTIME)
             tpmax = MAXTIME;
         if (tsmax > MAXTIME)
