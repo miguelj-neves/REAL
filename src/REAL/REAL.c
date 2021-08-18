@@ -2053,7 +2053,7 @@ void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
     extern double vp0, vs0, s_vp0, s_vs0;
     extern double nrt, ptw, stw, tpmin0;
     extern int np0, ns0, nps0, npsboth0, Nst, NNps;
-    extern double **ptrig0, ***strig0;
+    extern double ***ptrig0, ***strig0;
     extern int *np0_start, *np0_end, *ns0_start, *ns0_end;
     extern STATION* ST;
     extern double** pscounts;
@@ -2111,14 +2111,14 @@ void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
         ptemp = -100;
         puse = 0;
         for (j = np0_start[i]; j < np0_end[i]; j++) {
-            if (ptrig0[i][j] > tp_pre_b && ptrig0[i][j] < tp_pre_e && GCarc < GCarc0) {
-                torg[ps] = ptrig0[i][j] - tp_cal;
+            if (ptrig0[i][0][j] > tp_pre_b && ptrig0[i][0][j] < tp_pre_e && GCarc < GCarc0) {
+                torg[ps] = ptrig0[i][0][j] - tp_cal;
                 stagap[ps] = baz;
                 pcount = pcount + 1;
                 ps = ps + 1;
                 psweig = psweig + weig;
                 puse = 1;
-                ptemp = ptrig0[i][j];
+                ptemp = ptrig0[i][0][j];
                 break;
             }
         }
