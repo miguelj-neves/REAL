@@ -506,6 +506,7 @@ int main(int argc, char** argv)
             ptrig[i][1][j] = ptrig0[i][1][j];
         }
     }
+    fprintf(stderr,"Sorted triggers\n");
 
     nlat = (int)(2 * rx1 / dx1 + 1);
     nlon = (int)(2 * rx2 / dx2 + 1);
@@ -1797,12 +1798,15 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     int i, j, k;
     double a, b, c, as, bs, cs;
     double **temp_index, **temp_indexp;
+
+    fprintf(stderr,"Allocating\n");
     temp_index = (double**)malloc(sizeof(double*) * m);
     temp_indexp = (double**)malloc(sizeof(double*) * m);
     for (i = 0; i < m; i++) {
         temp_index[i] = (double*)malloc(sizeof(double) * n);
         temp_indexp[i] = (double*)malloc(sizeof(double) * n);
     }
+    fprintf(stderr,"Allocated\n");
     // sorting both p and s phases by p time.
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
