@@ -1866,12 +1866,12 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     pamp[i][j] = tgb[i][j].ampp;
                     pweight[i][j] = tgb[i][j].weightp;
                     array1[i][0][j - 1] = 1.0e8;
-                    array1[i][1][j-1] = -2;
+                    array1[i][1][j-1] = -2.;
                     pamp[i][j - 1] = 0.0;
                     pweight[i][j - 1] = 0.0;
                 } else {
                     array1[i][0][j] = 1.0e8;
-                    array1[i][1][j] = -2;
+                    array1[i][1][j] = -2.;
                     pamp[i][j] = 0.0;
                     pweight[i][j] = 0.0;
                 }
@@ -1887,7 +1887,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
             if (tgb[i][j].trigp<=0) {
-                temp_index[i][j]=-1;
+                temp_index[i][j]=-1.;
             }
             else {
                 temp_index[i][j] = (double)j;
@@ -1903,7 +1903,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     tgb[i][j].amps = tgb[i][k].amps;
                     temp_index[i][j] = (double)k;
                     if (tgb[i][k].trigp==0) {
-                        temp_index[i][j]=-1;
+                        temp_index[i][j]=-1.;
                     }
                     tgb[i][k].trigs = as;
                     tgb[i][k].weights = bs;
@@ -1929,12 +1929,12 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     samp[i][j] = tgb[i][j].amps;
                     sweight[i][j] = tgb[i][j].weights;
                     array2[i][0][j - 1] = 1.0e8;
-                    array2[i][1][j-1] = -2;
+                    array2[i][1][j-1] = -2.;
                     samp[i][j - 1] = 0.0;
                     sweight[i][j - 1] = 0.0;
                 } else {
                     array2[i][0][j] = 1.0e8;
-                    array2[i][1][j] = -2;
+                    array2[i][1][j] = -2.;
                     samp[i][j] = 0.0;
                     sweight[i][j] = 0.0;
                 }
