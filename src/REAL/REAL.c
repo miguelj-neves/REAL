@@ -536,7 +536,6 @@ int main(int argc, char** argv)
     if (latref0 < -999 && lonref0 < -999)
         inoref = 1;
     Maxt0 = Find_max(ptrig, Nst, Nps);
-    fprintf(stderr, "Safe 1\n");
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
         Nps = DetermineNp(ptrig, Nst, Nps);
@@ -633,6 +632,7 @@ int main(int argc, char** argv)
             fclose(fpr);
             exit(-1);
         }
+        fprintf(stderr, "Safe 6\n");
 
         // sort pscounts
 
@@ -713,6 +713,7 @@ int main(int argc, char** argv)
             if (iremove < 1.0e-5) {
                 DeleteOne(ptrig, m, Nps, n);
             }
+            fprintf(stderr, "Safe 7\n");
         } else {
             DeleteOne(ptrig, m, Nps, n);
         }
