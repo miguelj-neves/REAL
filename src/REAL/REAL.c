@@ -2285,12 +2285,13 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         // identified as S picks, it happens!)
         //fprintf(stderr, "ns0_start: %d, ns0_end: %d\n", ns0_start, ns0_end);
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
-            /*flag1 = 0;
+            flag1 = 0;
             for (ll = 0; ll < usize; ll++){
+                fprintf(stderr, "strig0: %lf, sused: %lf\n", strig0[i][1][j], sused[ll]);
                 if (strig0[i][1][j]==sused[ll]){
                     flag1 == 1;
                 }
-            }*/
+            }
             //fprintf(stderr, "flag1: %d\n", flag1);
             //if ((strig0[i][1][j]==-1) || (flag1==1)){
             // if corresponding j for p gives 0 or is a j used in p
@@ -2311,7 +2312,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     }
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
-    fprintf(stderr, "pcount: %d, scount: %d, ps: %d, psboth: %d\n",pcount, scount, ps, psboth);
+    //fprintf(stderr, "pcount: %d, scount: %d, ps: %d, psboth: %d\n",pcount, scount, ps, psboth);
     if (pcount >= np0 && scount >= ns0 && ps >= nps0 && psboth >= npsboth0 && (ps > rnps * nps0 || (ps <= rnps * nps0 && psweig >= rweig * ps))) {
         for (i = 0; i < ps; i++) {
             for (j = i; j < ps; j++) {
