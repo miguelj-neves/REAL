@@ -1904,9 +1904,9 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     a = temp_index[i][j];
                     bs = tgb[i][j].weights;
                     cs = tgb[i][j].amps;
-                    tgb[i][j].trigs = tgs[i][k].trigs;
-                    tgb[i][j].weights = tgs[i][k].weights;
-                    tgb[i][j].amps = tgs[i][k].amps;
+                    tgb[i][j].trigs = b[i][k].trigs;
+                    tgb[i][j].weights = tgb[i][k].weights;
+                    tgb[i][j].amps = tgb[i][k].amps;
                     temp_index[i][j]=k;
                     if (tgb[i][k].trigp==0) {
                         temp_index[i][j]=-1;
@@ -2196,7 +2196,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     double lonref, double elevref, int l)
 {
     int pcount, scount, ps, usize;
-    int i, j, k, ig, ih, l;
+    int i, j, k, ig, ih, ll;
     double GCarc, baz, median, std, ptemp;
     double tp0_cal, tp_cal, ts_cal, tp_pre, ts_pre, tp_pre_b, tp_pre_e, ts_pre_b,
         ts_pre_e;
@@ -2265,7 +2265,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
 
         ptemp = -100;
         puse = 0;
-        l = 0;
+        ll = 0;
         usize = np0_end[i] - np0_start[i];
         sused = (double*)malloc(usize * sizeof(double));
         for (j = np0_start[i]; j < np0_end[i]; j++) {
@@ -2277,18 +2277,18 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 puse = 1;
                 psweig = psweig + weig;
                 ptemp = ptrig0[i][0][j];
-                sused[l] = ptrig0[i][1][j];
+                sused[ll] = ptrig0[i][1][j];
                 break;
             }
-            l = l + 1;
+            ll = ll + 1;
         }
 
         // dtps: to remove some false S picks (they may be P picks but wrongly
         // identified as S picks, it happens!)
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
             flag1 = 0;
-            for (l = 0; l < sused; l++){
-                if (strig0[i][1][j]==sused[l]){
+            for (ll = 0; ll < sused; ll++){
+                if (strig0[i][1][j]==sused[ll]){
                     flag1 == 1;
                 }
             }
