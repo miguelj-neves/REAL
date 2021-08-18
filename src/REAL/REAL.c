@@ -712,7 +712,7 @@ int main(int argc, char** argv)
 
                     // To speed up, remove those associated P picks
                     for (j = 0; j < Nps2; j++) {
-                        if (ptrig[k][j] > tp_pre_b && ptrig[k][j] < tp_pre_e) {
+                        if (ptrig[k][0][j] > tp_pre_b && ptrig[k][0][j] < tp_pre_e) {
                             DeleteOne(ptrig, k, Nps, j);
                             iremove++;
                             break;
@@ -1987,11 +1987,12 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     }
 }
 
-void DeleteOne(double** array, int Nst0, int Nps0, int Nloc)
+void DeleteOne(double*** array, int Nst0, int Nps0, int Nloc)
 {
     int i;
     for (i = Nloc; i < Nps0 - 1; i++) {
-        array[Nst0][i] = array[Nst0][i + 1];
+        array[Nst0][0][i] = array[Nst0][0][i + 1];
+        array[Nst0][1][i] = array[Nst0][1][i + 1];
     }
     array[Nst0][Nps0 - 1] = 1.0e8;
 }
