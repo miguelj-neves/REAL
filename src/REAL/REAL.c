@@ -214,7 +214,7 @@ double GAPTH;
 double GCarc0;
 double std0, rsel;
 
-int Nst = 500; // maximum number of stations
+int Nst = 560; // maximum number of stations
 int Nps = 20000; // maximum number of P/S picks recorded at one station
 int Ntb = 20000; // maximum number of lines in traveltime table
 double SAcoef = 0.99; // used in simulated annealing relocation
@@ -1616,7 +1616,7 @@ int Readstation(char* name, STATION* ST, int nmax)
                 ST[i].net, ST[i].sta, ST[i].comp, &ST[i].elev)
             == EOF)
             test = 1;
-        fprintf(infile, "%lf %lf %s %s %s %lf\n", &ST[i].stlo, &ST[i].stla,ST[i].net, ST[i].sta, ST[i].comp, &ST[i].elev);
+        fprintf(stdout, "%lf %lf %s %s %s %lf\n", &ST[i].stlo, &ST[i].stla,ST[i].net, ST[i].sta, ST[i].comp, &ST[i].elev);
         if (test == 1)
             break;
     }
