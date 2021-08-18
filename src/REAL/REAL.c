@@ -341,7 +341,6 @@ int main(int argc, char** argv)
     }
 
     ST = (STATION*)malloc(sizeof(STATION) * Nst);
-    fprintf(stderr, "To read station information: %s\n",input);
     Nst = Readstation(input, ST, Nst);
 
     /* read triggers */
@@ -350,12 +349,10 @@ int main(int argc, char** argv)
     } else {
         strcpy(dir, argv[7]);
     }
-    fprintf(stderr, "To assigned TGB size\n");
     TGB = (TRIGB**)malloc(sizeof(TRIGB*) * Nst);
     for (i = 0; i < Nst; i++) {
         TGB[i] = (TRIGB*)malloc(sizeof(TRIGB) * Nps);
     }
-    fprintf(stderr, "Assigned TGB size\n");
     for (i = 0; i < Nst; i++) {
         for (j = 0; j < Nps; j++) {
             TGB[i][j].trigp = 1.0e8;
@@ -1605,7 +1602,6 @@ int Readstation(char* name, STATION* ST, int nmax)
     FILE* infile;
 
     test = 0;
-    fprintf(stderr, "Inside function to read station information: %s, %d\n",name, nmax);
     while ((infile = fopen(name, "r")) == NULL) {
         fprintf(stdout, "Can not open file in ReadFile %s\n", name);
         exit(-1);
@@ -1616,11 +1612,9 @@ int Readstation(char* name, STATION* ST, int nmax)
                 ST[i].net, ST[i].sta, ST[i].comp, &ST[i].elev)
             == EOF)
             test = 1;
-        fprintf(stdout, "%lf %lf %s %s %s %lf\n", &ST[i].stlo, &ST[i].stla,ST[i].net, ST[i].sta, ST[i].comp, &ST[i].elev);
         if (test == 1)
             break;
     }
-    fprintf(stderr, "Read station information: %s, %d\n",name, nmax);
     fclose(infile);
     return i;
 }
