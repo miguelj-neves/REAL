@@ -198,7 +198,7 @@ STATION* ST;
 CLEARUP *CLEAR, *CLEAR2;
 HYPO* loc;
 //TRIG **TGP, **TGS;
-TRIGB **TGB, **TGB2;
+TRIGB **TGB;
 TTT* TB;
 double ptw, stw, nrt, drt;
 double ***ptrig, **temp, ***ptrig0, ***strig0;
@@ -356,12 +356,10 @@ int main(int argc, char** argv)
         TGS[i] = (TRIG*)malloc(sizeof(TRIG) * Nps);
     }*/
     TGB = (TRIGB**)malloc(sizeof(TRIGB*) * Nst);
-    TGB2 = (TRIGB**)malloc(sizeof(TRIGB*) * Nst);
     for (i = 0; i < Nst; i++) {
         TGB[i] = (TRIGB*)malloc(sizeof(TRIGB) * Nps);
-        TGB2[i] = (TRIGB*)malloc(sizeof(TRIGB) * Nps);
     }
-
+    fprintf(stderr, "Assigned TGB size\n")
     for (i = 0; i < Nst; i++) {
         for (j = 0; j < Nps; j++) {
             TGB[i][j].trigp = 1.0e8;
@@ -377,7 +375,7 @@ int main(int argc, char** argv)
         istaremove = 0;
         sprintf(input, "%s/%s.%s.PS.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
-            // fprintf(stderr, "Can not open file in ReadFile %s\n", input);
+            fprintf(stderr, "Can not open file in ReadFile %s\n", input);
             istaremove++;
         } else {
             test = 0;
