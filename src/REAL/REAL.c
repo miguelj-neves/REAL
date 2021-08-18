@@ -1880,7 +1880,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     // Sort S phases by S time but keep starting index saved
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
-            if (tgb[i][j].trigp<=0) {
+            if (tgb[i][j].trigp<=1.e-8) {
                 temp_index[i][j]=-1.;
             }
             else {
@@ -1896,7 +1896,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     tgb[i][j].weights = tgb[i][k].weights;
                     tgb[i][j].amps = tgb[i][k].amps;
                     temp_index[i][j] = (double)k;
-                    if (tgb[i][k].trigp==0) {
+                    if (tgb[i][k].trigp<=1.e-8) {
                         temp_index[i][j]=-1.;
                     }
                     tgb[i][k].trigs = as;
@@ -2283,7 +2283,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                     flag1 = 1;
                 }
             }
-            if ((strig0[i][1][j]==-1) || (flag1==1)){
+            if ((strig0[i][1][j]<=-1.+0.1 && strig0[i][1][j]>=-1.-0.1) || (flag1==1)){
             // if corresponding j for p gives 0 or is a j used in p
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][0][j] - ptemp) > dtps && strig0[i][0][j] > ts_pre_b && strig0[i][0][j] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][0][j] - ts_cal;
