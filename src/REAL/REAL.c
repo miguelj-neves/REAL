@@ -401,6 +401,7 @@ int main(int argc, char** argv)
         }
     }
 
+
     if (ielev == 0) {
         for (i = 0; i < Nst; i++)
             ST[i].elev = 0.0;
@@ -447,14 +448,23 @@ int main(int argc, char** argv)
         Ntb);
 
     ptrig = (double***)malloc(sizeof(double**) * Nst);
+    fprintf(stderr, "Safe 1\n")
     ptrig0 = (double***)malloc(sizeof(double**) * Nst);
+    fprintf(stderr, "Safe 2\n")
     strig0 = (double***)malloc(sizeof(double**) * Nst);
+    fprintf(stderr, "Safe 3\n")
     pamp0 = (double**)malloc(sizeof(double*) * Nst);
+    fprintf(stderr, "Safe 4\n")
     samp0 = (double**)malloc(sizeof(double*) * Nst);
+    fprintf(stderr, "Safe 5\n")
     pweight0 = (double**)malloc(sizeof(double*) * Nst);
+    fprintf(stderr, "Safe 6\n")
     sweight0 = (double**)malloc(sizeof(double*) * Nst);
+    fprintf(stderr, "Safe 7\n")
     temp = (double**)malloc(sizeof(double*) * Nst);
+    fprintf(stderr, "Safe 8\n")
     strig0 = (double***)malloc(sizeof(double**) * Nst);
+    fprintf(stderr, "Safe 9\n")
     for (i = 0; i < Nst; i++) {
         ptrig[i] = (double**)malloc(sizeof(double*) * 2);
         ptrig0[i] = (double**)malloc(sizeof(double*) * 2);
@@ -471,7 +481,7 @@ int main(int argc, char** argv)
         sweight0[i] = (double*)malloc(sizeof(double) * Nps);
         temp[i] = (double*)malloc(sizeof(double) * Nps);
     }
-
+    fprintf(stderr, "Safe here\n")
     // default number of events (picks*Nst)
     RELC = (SELECT*)malloc(sizeof(SELECT) * Nst * Nps);
     CLEAR = (CLEARUP*)malloc(sizeof(CLEARUP) * Nst * Nps);
