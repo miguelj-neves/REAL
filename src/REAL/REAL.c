@@ -1821,7 +1821,6 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
             temp_indexp[i][j] = (double)j;
-            fprintf(stderr, "temp_indexp: %lf\n", temp_indexp[i][j]);
             for (k = (j + 1); k < n; ++k) {
                 if (tgb[i][j].trigp > tgb[i][k].trigp) {
                     a = tgb[i][j].trigp;
