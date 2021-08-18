@@ -508,7 +508,6 @@ int main(int argc, char** argv)
             ptrig[i][1][j] = ptrig0[i][1][j];
         }
     }
-    fprintf(stderr,"Sorted triggers\n");
 
     nlat = (int)(2 * rx1 / dx1 + 1);
     nlon = (int)(2 * rx2 / dx2 + 1);
@@ -540,7 +539,7 @@ int main(int argc, char** argv)
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
         if (fabs(tpmin0 - 1.0e8) < 1)
             break;
-
+        fprintf(stderr,"Find_min_loc done\n");
         lonref = ST[m].stlo;
         latref = ST[m].stla;
         elevref = ST[m].elev;
@@ -556,7 +555,7 @@ int main(int argc, char** argv)
 
         Nps2 = DetermineNprange(ptrig, tpmax, Nst, Nps);
         // printf("%d %lf %lf\n",Nps,told,tpmin0);
-
+        fprintf(stderr,"Nprange\n");
         if (tpmin < 0.0)
             tpmin = 0.0;
         if (tsmin < 0.0)
@@ -567,12 +566,13 @@ int main(int argc, char** argv)
             tsmax = MAXTIME;
 
         DetermineNps0range(ptrig0, strig0, tpmin, tpmax, tsmin, tsmax, Nst, NNps);
-
+        fprintf(stderr,"Nps0range\n");
         for (k = 0; k < nnn; k++) {
             for (l = 0; l < 11; l++) {
                 pscounts[k][l] = 0.0;
             }
         }
+        fprintf(stderr,"Entering in omp\n");
 
         // homo model
         if (igrid == 0) {
@@ -624,6 +624,7 @@ int main(int argc, char** argv)
         }
 
         // sort pscounts
+        fprintf(stderr,"Starting sortpscounts\n");
         Sortpscounts(pscounts, nnn);
 
         if (pscounts[nnn - 1][4] >= np0 && pscounts[nnn - 1][5] >= ns0 && pscounts[nnn - 1][7] >= nps0 && pscounts[nnn - 1][6] <= std0 && pscounts[nnn - 1][8] <= GAPTH && pscounts[nnn - 1][9] >= npsboth0 && (pscounts[nnn - 1][7] > rnps * nps0 || ((pscounts[nnn - 1][7] <= rnps * nps0) && pscounts[nnn - 1][10] >= rweig * pscounts[nnn - 1][7]))) {
@@ -1932,19 +1933,14 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
-    fprintf(stderr,"S array made\n");
+
     // New sorting
-    fprintf(stderr,"m, n: %d, %d\n", m,n);
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
             for (k = (j + 1); k < n; ++k) {
-                fprintf(stderr,"j, k: %d, %d\n", j,k);
                 if (array1[i][0][j] > array1[i][0][k]) {
-                    fprintf(stderr,"P sorting\n");
                     a = array1[i][0][j];
-                    fprintf(stderr,"a: %lf\n",a);
                     as = array1[i][1][j];
-                    fprintf(stderr,"as: %lf\n",as);
                     b = pamp[i][j];
                     c = pweight[i][j];
                     array1[i][0][j] = array1[i][0][k];
@@ -1956,7 +1952,6 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     pweight[i][k] = c;
                 }
                 if (array2[i][0][j] > array2[i][0][k]) {
-                    fprintf(stderr,"S sorting\n");
                     a = array2[i][0][j];
                     as = array2[i][1][j];
                     b = samp[i][j];
@@ -1973,7 +1968,6 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
-    fprintf(stderr,"New sorting done\n");
 }
 
 void DeleteOne(double*** array, int Nst0, int Nps0, int Nloc)
