@@ -1823,7 +1823,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
   // Only sorting the P phases
     int i, j, k;
     double a, b, c, as, bs, cs;
-    double** temp_index, temp_indexp;
+    double **temp_index, **temp_indexp;
     temp_index = (double**)malloc(sizeof(double*) * m);
     temp_indexp = (double**)malloc(sizeof(double*) * m);
     for (i = 0; i < m; i++) {
@@ -1904,7 +1904,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     a = temp_index[i][j];
                     bs = tgb[i][j].weights;
                     cs = tgb[i][j].amps;
-                    tgb[i][j].trigs = b[i][k].trigs;
+                    tgb[i][j].trigs = tgb[i][k].trigs;
                     tgb[i][j].weights = tgb[i][k].weights;
                     tgb[i][j].amps = tgb[i][k].amps;
                     temp_index[i][j]=k;
