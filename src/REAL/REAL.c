@@ -535,6 +535,7 @@ int main(int argc, char** argv)
     Maxt0 = Find_max(ptrig, Nst, Nps);
     fprintf(stderr,"Maxt0: %lf\n",Maxt0);
     // search each initiating P pick
+    fprintf(stderr,"Find_min: %lf\n",Find_min(ptrig, Nst, Nps));
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
