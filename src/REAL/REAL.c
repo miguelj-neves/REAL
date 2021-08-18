@@ -1663,7 +1663,7 @@ void Find_min_loc(double*** array, int n1, int n2, double* amin, int* m,
     *amin = 1.0e8;
     for (i = 0; i < n1; i++) {
         for (j = 0; j < n2; j++) {
-            if (array[i][0][j] < *amin) {
+            if ((array[i][0][j] < *amin) && (array[i][0][j]>0)) {
                 *amin = array[i][0][j];
                 *m = i;
                 *n = j;
