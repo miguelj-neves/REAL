@@ -1810,7 +1810,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
 {
   // Only sorting the P phases
     int i, j, k;
-    double a, b, c, d, as, bs, cs, ds;
+    double a, b, c, d, e, as, bs, cs, ds;
     double **temp_index, **temp_indexp;
 
 
@@ -1885,7 +1885,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
-    // Sort S phases by S time but keep starting index saved
+    // Sort P and S phases by S time but keep starting index saved
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
             if (tgb[i][j].trigp<=1.e-8) {
@@ -1896,24 +1896,36 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
             for (k = (j + 1); k < n; ++k) {
                 if (tgb[i][j].trigs > tgb[i][k].trigs) {
+                    a = tgb[i][j].trigp;
+                    b = tgb[i][j].weightp;
+                    c = tgb[i][j].ampp;
+                    d = tgb[i][j].weighte;
+                    e = temp_index[i][j];
+                    tgb[i][j].trigp = tgb[i][k].trigp;
+                    tgb[i][j].weightp = tgb[i][k].weightp;
+                    tgb[i][j].ampp = tgb[i][k].ampp;
+                    tgb[i][j].weighte = tgb[i][k].weighte;
+                    tgb[i][k].trigp = a;
+                    tgb[i][k].weightp = b;
+                    tgb[i][k].ampp = c;
+                    tgb[i][k].weighte = d;
                     as = tgb[i][j].trigs;
-                    a = temp_index[i][j];
                     bs = tgb[i][j].weights;
                     cs = tgb[i][j].amps;
-                    tgb[i][j].trigs = tgb[i][k].trigs;
-                    tgb[i][j].weights = tgb[i][k].weights;
-                    tgb[i][j].amps = tgb[i][k].amps;
                     temp_index[i][j] = (double)k;
                     if (tgb[i][k].trigp<=1.e-8) {
                         temp_index[i][j]=-1.;
                     }
+                    //ds = tgb[i][j].weighte;
+                    tgb[i][j].trigs = tgb[i][k].trigs;
+                    tgb[i][j].weights = tgb[i][k].weights;
+                    tgb[i][j].amps = tgb[i][k].amps;
                     tgb[i][k].trigs = as;
                     tgb[i][k].weights = bs;
                     tgb[i][k].amps = cs;
-                    temp_index[i][k]=a;
+                    temp_index[i][k]=e;
                 }
             }
-
         }
     }
 
