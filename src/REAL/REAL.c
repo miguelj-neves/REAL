@@ -390,24 +390,7 @@ int main(int argc, char** argv)
             fclose(fp);
         }
 
-        /*sprintf(input, "%s/%s.%s.S.txt", dir, ST[i].net, ST[i].sta);
-        if ((fp = fopen(input, "r")) == NULL) {
-            // fprintf(stderr, "Can not open file in ReadFile %s\n", input);
-            istaremove++;
-        } else {
-            test = 0;
-            for (j = 0; j < Nps; j++) {
-                if (fscanf(fp, "%lf %lf %lf", &TGS[i][j].trig, &TGS[i][j].weight,
-                        &TGS[i][j].amp)
-                    == EOF)
-                    test = 1;
-                if (TGS[i][j].trig > MAXTIME)
-                    TGS[i][j].trig = 1.0e8;
-                if (test == 1)
-                    break;
-            }
-            fclose(fp);
-        }*/
+
         // remove the station from station.dat if no any P or S picks recorded at
         // the station
         if (istaremove == 2) {
@@ -1622,7 +1605,7 @@ int Readstation(char* name, STATION* ST, int nmax)
     FILE* infile;
 
     test = 0;
-
+    fprintf(stderr, "Inside function to read station information: %s, %d\n",name, nmax);
     while ((infile = fopen(name, "r")) == NULL) {
         fprintf(stdout, "Can not open file in ReadFile %s\n", name);
         exit(-1);
