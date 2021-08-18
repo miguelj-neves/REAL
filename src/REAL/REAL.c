@@ -1852,11 +1852,12 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     pamp[i][j] = tgb[i][j].ampp;
                     pweight[i][j] = tgb[i][j].weightp;
                     array1[i][0][j - 1] = 1.0e8;
+                    array1[i][1][j-1] = -2;
                     pamp[i][j - 1] = 0.0;
                     pweight[i][j - 1] = 0.0;
                 } else {
                     array1[i][0][j] = 1.0e8;
-                    array1[i][1][j] = temp_indexp[i][j];
+                    array1[i][1][j] = -2;
                     pamp[i][j] = 0.0;
                     pweight[i][j] = 0.0;
                 }
@@ -1914,11 +1915,12 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     samp[i][j] = tgb[i][j].amps;
                     sweight[i][j] = tgb[i][j].weights;
                     array2[i][0][j - 1] = 1.0e8;
+                    array2[i][1][j-1] = -2;
                     samp[i][j - 1] = 0.0;
                     sweight[i][j - 1] = 0.0;
                 } else {
                     array2[i][0][j] = 1.0e8;
-                    array2[i][1][j] = temp_index[i][j];
+                    array2[i][1][j] = -2;
                     samp[i][j] = 0.0;
                     sweight[i][j] = 0.0;
                 }
@@ -1951,6 +1953,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     pweight[i][k] = c;
                 }
                 if (array2[i][0][j] > array2[i][0][k]) {
+                    fprintf(stderr,"j, k: %d, %d\n", j,k);
                     a = array2[i][0][j];
                     as = array2[i][1][j];
                     b = samp[i][j];
