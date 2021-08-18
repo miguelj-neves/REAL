@@ -2299,7 +2299,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     }
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
-    fprintf(stderr, "pcount: %d, scount: %d, ps: %d, psboth: %d\n",pcount, scount, ps, psboth);
+    //fprintf(stderr, "pcount: %d, scount: %d, ps: %d, psboth: %d\n",pcount, scount, ps, psboth);
     if (pcount >= np0 && scount >= ns0 && ps >= nps0 && psboth >= npsboth0 && (ps > rnps * nps0 || (ps <= rnps * nps0 && psweig >= rweig * ps))) {
         for (i = 0; i < ps; i++) {
             for (j = i; j < ps; j++) {
