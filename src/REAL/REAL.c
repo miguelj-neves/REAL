@@ -1942,10 +1942,12 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                 if (array1[i][0][j] > array1[i][0][k]) {
                     fprintf(stderr,"P sorting\n");
                     a = array1[i][0][j];
+                    fprintf(stderr,"a: %lf\n",a);
                     as = array1[i][1][j];
+                    fprintf(stderr,"as: %lf\n",as);
                     b = pamp[i][j];
                     c = pweight[i][j];
-                    array1[i][j] = array1[i][k];
+                    array1[i][0][j] = array1[i][0][k];
                     pamp[i][j] = pamp[i][k];
                     pweight[i][j] = pweight[i][k];
                     array1[i][0][k] = a;
