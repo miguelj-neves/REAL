@@ -1882,7 +1882,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                 temp_index[i][j]=-1;
             }
             else {
-                temp_index[i][j]=j;
+                temp_index[i][j] = (double)j;
             }
             for (k = (j + 1); k < n; ++k) {
                 if (tgb[i][j].trigs > tgb[i][k].trigs) {
