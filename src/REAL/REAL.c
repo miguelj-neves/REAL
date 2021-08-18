@@ -1838,11 +1838,13 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
 
     // Make P picks array
     for (i = 0; i < m; i++) {
+        fprintf(stderr,"Inside first for\n");
         array1[i][0][0] = tgb[i][0].trigp;
         array1[i][1][0] = temp_indexp[i][0];
         pamp[i][0] = tgb[i][0].ampp;
         pweight[i][0] = tgb[i][0].weightp;
         for (j = 1; j < n; j++) {
+            fprintf(stderr,"Inside second for\n");
             if (tgb[i][j].trigp - tgb[i][j - 1].trigp < ptw) {
                 fprintf(stderr,"Inside first if\n");
                 if (tgb[i][j].weightp > tgb[i][j - 1].weightp) {
