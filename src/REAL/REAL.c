@@ -457,7 +457,9 @@ int main(int argc, char** argv)
         ptrig[i] = (double**)malloc(sizeof(double*) * 2);
         ptrig0[i] = (double**)malloc(sizeof(double*) * 2);
         ptrig[i][0] = (double*)malloc(sizeof(double) * Nps);
+        ptrig[i][1] = (double*)malloc(sizeof(double) * Nps);
         ptrig0[i][0] = (double*)malloc(sizeof(double) * Nps);
+        ptrig0[i][1] = (double*)malloc(sizeof(double) * Nps);
         strig0[i] = (double**)malloc(sizeof(double*) * 2);
         strig0[i][0] = (double*)malloc(sizeof(double) * Nps);
         strig0[i][1] = (double*)malloc(sizeof(double) * Nps);
@@ -1811,7 +1813,6 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
             temp_indexp[i][j] = (double)j;
-            fprintf(stderr,"Assigned temp_indexp: %d, %d, %f\n", i, j, temp_indexp[i][j]);
             for (k = (j + 1); k < n; ++k) {
                 if (tgb[i][j].trigp > tgb[i][k].trigp) {
                     a = tgb[i][j].trigp;
