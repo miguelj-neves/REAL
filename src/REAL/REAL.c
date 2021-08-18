@@ -341,8 +341,9 @@ int main(int argc, char** argv)
     }
 
     ST = (STATION*)malloc(sizeof(STATION) * Nst);
+    fprintf(stderr, "To read station information: %s\n",input);
     Nst = Readstation(input, ST, Nst);
-    fprintf(stderr, "Read station information\n");
+
     /* read triggers */
     if (igrid == 0) {
         strcpy(dir, argv[6]);
