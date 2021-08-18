@@ -2294,7 +2294,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                     flag1 == 1;
                 }
             }
-            //fprintf(stderr, "flag1: %d\n", flag1);
+            fprintf(stderr, "flag1: %d\n", flag1);
             if ((strig0[i][1][j]==-1) || (flag1==1)){
             // if corresponding j for p gives 0 or is a j used in p
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][0][j] - ptemp) > dtps && strig0[i][0][j] > ts_pre_b && strig0[i][0][j] < ts_pre_e && GCarc < GCarc0) {
