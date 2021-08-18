@@ -1835,7 +1835,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
             }
         }
     }
-    fprintf(stderr,"Sorted P\n");
+
     // Make P picks array
     for (i = 0; i < m; i++) {
         array1[i][0][0] = tgb[i][0].trigp;
@@ -1844,7 +1844,9 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
         pweight[i][0] = tgb[i][0].weightp;
         for (j = 1; j < n; j++) {
             if (tgb[i][j].trigp - tgb[i][j - 1].trigp < ptw) {
+                fprintf(stderr,"Inside first if\n");
                 if (tgb[i][j].weightp > tgb[i][j - 1].weightp) {
+                    fprintf(stderr,"Higher weight\n");
                     array1[i][0][j] = tgb[i][j].trigp;
                     array1[i][1][j] = temp_indexp[i][j];
                     pamp[i][j] = tgb[i][j].ampp;
@@ -1859,6 +1861,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     pweight[i][j] = 0.0;
                 }
             } else {
+                fprintf(stderr,"Inside else\n");
                 array1[i][0][j] = tgb[i][j].trigp;
                 array1[i][1][j] = temp_indexp[i][j];
                 pamp[i][j] = tgb[i][j].ampp;
