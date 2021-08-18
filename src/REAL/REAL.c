@@ -1840,7 +1840,9 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     for (i = 0; i < m; i++) {
         fprintf(stderr,"Inside first for\n");
         array1[i][0][0] = tgb[i][0].trigp;
+        fprintf(stderr,"tgb no problem\n");
         array1[i][1][0] = temp_indexp[i][0];
+        fprintf(stderr,"temp_indexp no problem\n");
         pamp[i][0] = tgb[i][0].ampp;
         pweight[i][0] = tgb[i][0].weightp;
         for (j = 1; j < n; j++) {
