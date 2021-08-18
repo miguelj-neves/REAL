@@ -334,12 +334,12 @@ int main(int argc, char** argv)
         GCarc0 = trx - 0.05;
 
     /* read station information */
-    fprintf(stderr, "Read station information\n");
     if (igrid == 0) {
         strcpy(input, argv[5]);
     } else {
         strcpy(input, argv[6]);
     }
+    fprintf(stderr, "Assign station information\n");
     ST = (STATION*)malloc(sizeof(STATION) * Nst);
     Nst = Readstation(input, ST, Nst);
 
