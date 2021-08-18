@@ -334,6 +334,7 @@ int main(int argc, char** argv)
         GCarc0 = trx - 0.05;
 
     /* read station information */
+    fprintf(stderr, "Read station information\n");
     if (igrid == 0) {
         strcpy(input, argv[5]);
     } else {
@@ -348,13 +349,7 @@ int main(int argc, char** argv)
     } else {
         strcpy(dir, argv[7]);
     }
-
-    /*TGP = (TRIG**)malloc(sizeof(TRIG*) * Nst);
-    TGS = (TRIG**)malloc(sizeof(TRIG*) * Nst);
-    for (i = 0; i < Nst; i++) {
-        TGP[i] = (TRIG*)malloc(sizeof(TRIG) * Nps);
-        TGS[i] = (TRIG*)malloc(sizeof(TRIG) * Nps);
-    }*/
+    fprintf(stderr, "To assigned TGB size\n");
     TGB = (TRIGB**)malloc(sizeof(TRIGB*) * Nst);
     for (i = 0; i < Nst; i++) {
         TGB[i] = (TRIGB*)malloc(sizeof(TRIGB) * Nps);
