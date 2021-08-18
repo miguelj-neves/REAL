@@ -2292,6 +2292,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         ll = 0;
         usize = np0_end[i] - np0_start[i];
         sused = (double*)malloc(usize * sizeof(double));
+        fprintf(stderr, "Safe 7\n");
         for (j = np0_start[i]; j < np0_end[i]; j++) {
             if (ptrig0[i][0][j] > tp_pre_b && ptrig0[i][0][j] < tp_pre_e && GCarc < GCarc0) {
                 torg[ps] = ptrig0[i][0][j] - tp_cal;
