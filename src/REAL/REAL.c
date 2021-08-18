@@ -1810,7 +1810,8 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     // sorting both p and s phases by p time.
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
-            temp_indexp[i][j]=j;
+            temp_indexp[i][j] = (double)j;
+            fprintf(stderr,"Assigned temp_indexp: %d, %d, %f\n", i, j, temp_indexp[i][j]);
             for (k = (j + 1); k < n; ++k) {
                 if (tgb[i][j].trigp > tgb[i][k].trigp) {
                     a = tgb[i][j].trigp;
