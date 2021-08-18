@@ -178,7 +178,7 @@ void SortTriggers0(TRIGB**, double***, double***, double**, double**,
         double**, double**, int, int);
 //void SortTriggersp(TRIG**, TRIG**, double**, double**, double**, double**,
 //      double**, double**, int, int);
-void DeleteOne(double**, int, int, int);
+void DeleteOne(double***, int, int, int);
 int DetermineNprange(double***, double, int, int);
 void DetermineNps0range(double***, double**, double, double, double, double,
     int, int);
@@ -791,14 +791,14 @@ int main(int argc, char** argv)
             puse = 0;
             for (j = 0; j < NNps; j++) {
                 // rsel*std to remove some picks with large residuals
-                if (ptrig0[k][j] > tp_pre_b && ptrig0[k][j] < tp_pre_e && fabs(ptrig0[k][j] - tp_pre) < rsel * RELC[i].std1 && ptrig0[k][j] > RELC[i].atime1 && GCarc < GCarc0) {
+                if (ptrig0[k][0][j] > tp_pre_b && ptrig0[k][0][j] < tp_pre_e && fabs(ptrig0[k][0][j] - tp_pre) < rsel * RELC[i].std1 && ptrig0[k][0][j] > RELC[i].atime1 && GCarc < GCarc0) {
                     strcpy(CLEAR[i].pk[ps].net, ST[k].net);
                     strcpy(CLEAR[i].pk[ps].sta, ST[k].sta);
                     strcpy(CLEAR[i].pk[ps].phase, "P");
-                    CLEAR[i].pk[ps].abs_pk = ptrig0[k][j];
-                    CLEAR[i].pk[ps].pk = ptrig0[k][j] - RELC[i].atime1;
+                    CLEAR[i].pk[ps].abs_pk = ptrig0[k][0][j];
+                    CLEAR[i].pk[ps].pk = ptrig0[k][0][j] - RELC[i].atime1;
                     CLEAR[i].pk[ps].amp = pamp0[k][j];
-                    CLEAR[i].pk[ps].res = ptrig0[k][j] - tp_pre;
+                    CLEAR[i].pk[ps].res = ptrig0[k][0][j] - tp_pre;
                     CLEAR[i].pk[ps].baz = baz;
                     CLEAR[i].pk[ps].weig = pweight0[k][j];
                     CLEAR[i].pk[ps].stlat = ST[k].stla;
@@ -812,7 +812,7 @@ int main(int argc, char** argv)
                     ps++;
                     psweig = psweig + weig;
                     puse = 1;
-                    ptemp = ptrig0[k][j];
+                    ptemp = ptrig0[k][0][j];
                     break;
                 }
             }
