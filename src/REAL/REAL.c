@@ -1616,7 +1616,7 @@ int Readstation(char* name, STATION* ST, int nmax)
                 ST[i].net, ST[i].sta, ST[i].comp, &ST[i].elev)
             == EOF)
             test = 1;
-            fprintf(infile, "%lf %lf %s %s %s %lf\n", &ST[i].stlo, &ST[i].stla,ST[i].net, ST[i].sta, ST[i].comp, &ST[i].elev)
+            fprintf(infile, "%lf %lf %s %s %s %lf\n", &ST[i].stlo, &ST[i].stla,ST[i].net, ST[i].sta, ST[i].comp, &ST[i].elev);
         if (test == 1)
             break;
     }
