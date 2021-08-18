@@ -1938,8 +1938,9 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
             for (k = (j + 1); k < n; ++k) {
-
+                fprintf(stderr,"j, k: %d, %d\n", j,k);
                 if (array1[i][0][j] > array1[i][0][k]) {
+                    fprintf(stderr,"P sorting\n");
                     a = array1[i][0][j];
                     as = array1[i][1][j];
                     b = pamp[i][j];
@@ -1953,7 +1954,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     pweight[i][k] = c;
                 }
                 if (array2[i][0][j] > array2[i][0][k]) {
-                    fprintf(stderr,"j, k: %d, %d\n", j,k);
+                    fprintf(stderr,"S sorting\n");
                     a = array2[i][0][j];
                     as = array2[i][1][j];
                     b = samp[i][j];
