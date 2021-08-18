@@ -360,6 +360,7 @@ int main(int argc, char** argv)
     for (i = 0; i < Nst; i++) {
         TGB[i] = (TRIGB*)malloc(sizeof(TRIGB) * Nps);
         TGB2[i] = (TRIGB*)malloc(sizeof(TRIGB) * Nps);
+    }
 
     for (i = 0; i < Nst; i++) {
         for (j = 0; j < Nps; j++) {
