@@ -475,7 +475,7 @@ int main(int argc, char** argv)
     fprintf(stderr, "Actual     : Nst %-5d Nps %-5d Ntb %-5d\n", Nst, Nps - 1,
         Ntb);
 
-    ptrig = (double**)malloc(sizeof(double*) * Nst);
+    ptrig = (double***)malloc(sizeof(double**) * Nst);
     ptrig0 = (double***)malloc(sizeof(double**) * Nst);
     strig0 = (double***)malloc(sizeof(double**) * Nst);
     pamp0 = (double**)malloc(sizeof(double*) * Nst);
