@@ -1643,9 +1643,9 @@ double Find_min(double*** array, int n1, int n2)
             }
         }
     }
-    if (amin<0){
-        amin = 1.0e8;
-    }
+    //if (amin<0){
+    //    amin = 1.0e8;
+    //}
     return amin;
 }
 
