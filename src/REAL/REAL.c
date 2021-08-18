@@ -2277,7 +2277,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             }
             if ((strig0[i][1][j]==-1) || (flag1==1)){
             // if corresponding j for p gives 0 or is a j used in p
-            if (((j>=np0_start[i]) && (j<np0_end[i])) || (ptrig0[i][j]==0)) {
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][0][j] - ptemp) > dtps && strig0[i][0][j] > ts_pre_b && strig0[i][0][j] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][0][j] - ts_cal;
                     stagap[ps] = baz;
@@ -2289,7 +2288,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                     }
                     break;
                 }
-            }
             }
         }
     }
