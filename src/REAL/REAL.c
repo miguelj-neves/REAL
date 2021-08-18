@@ -533,15 +533,12 @@ int main(int argc, char** argv)
     if (latref0 < -999 && lonref0 < -999)
         inoref = 1;
     Maxt0 = Find_max(ptrig, Nst, Nps);
-    fprintf(stderr,"Maxt0: %lf\n",Maxt0);
     // search each initiating P pick
-    fprintf(stderr,"Find_min: %lf\n",Find_min(ptrig, Nst, Nps));
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
         if (fabs(tpmin0 - 1.0e8) < 1)
             break;
-        fprintf(stderr,"tpmin0: %lf\n",tpmin0);
         lonref = ST[m].stlo;
         latref = ST[m].stla;
         elevref = ST[m].elev;
@@ -560,11 +557,9 @@ int main(int argc, char** argv)
             tsmin=1.0e-8;
         }
         tsmax = tpmin0 + (GCarc0 * 111.19 / vs0) + nrt * stw;
-        fprintf(stderr,"tpmin: %lf, tpmax: %lf, tsmin: %lf, tsmax: %lf\n",tpmin, tpmax, tsmin,tsmax);
 
         Nps2 = DetermineNprange(ptrig, tpmax, Nst, Nps);
-        // printf("%d %lf %lf\n",Nps,told,tpmin0);
-        fprintf(stderr,"Nprange\n");
+
         /*if (tpmin < 0.0)
             tpmin = 0.0;
         if (tsmin < 0.0)
@@ -575,13 +570,13 @@ int main(int argc, char** argv)
             tsmax = MAXTIME;
 
         DetermineNps0range(ptrig0, strig0, tpmin, tpmax, tsmin, tsmax, Nst, NNps);
-        fprintf(stderr,"Nps0range\n");
+
         for (k = 0; k < nnn; k++) {
             for (l = 0; l < 11; l++) {
                 pscounts[k][l] = 0.0;
             }
         }
-        fprintf(stderr,"Entering in omp\n");
+
 
         // homo model
         if (igrid == 0) {
@@ -633,7 +628,7 @@ int main(int argc, char** argv)
         }
 
         // sort pscounts
-        fprintf(stderr,"Starting sortpscounts\n");
+
         Sortpscounts(pscounts, nnn);
 
         if (pscounts[nnn - 1][4] >= np0 && pscounts[nnn - 1][5] >= ns0 && pscounts[nnn - 1][7] >= nps0 && pscounts[nnn - 1][6] <= std0 && pscounts[nnn - 1][8] <= GAPTH && pscounts[nnn - 1][9] >= npsboth0 && (pscounts[nnn - 1][7] > rnps * nps0 || ((pscounts[nnn - 1][7] <= rnps * nps0) && pscounts[nnn - 1][10] >= rweig * pscounts[nnn - 1][7]))) {
@@ -2265,8 +2260,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         ll = 0;
         usize = np0_end[i] - np0_start[i];
         sused = (double*)malloc(usize * sizeof(double));
-        //fprintf(stderr, "Allocated sused\n");
-        //fprintf(stderr, "np0_start: %d, np0_end: %d\n", np0_start, np0_end);
         for (j = np0_start[i]; j < np0_end[i]; j++) {
             if (ptrig0[i][0][j] > tp_pre_b && ptrig0[i][0][j] < tp_pre_e && GCarc < GCarc0) {
                 torg[ps] = ptrig0[i][0][j] - tp_cal;
@@ -2277,24 +2270,20 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 psweig = psweig + weig;
                 ptemp = ptrig0[i][0][j];
                 sused[ll] = ptrig0[i][1][j];
-                fprintf(stderr, "np0_start: %d,ptrig0: %lf, sused: %lf\n",  np0_end[i],ptrig0[i][1][j], sused[ll]);
                 break;
             }
             ll = ll + 1;
         }
-        //fprintf(stderr, "P counted: %d\n", pcount);
+
         // dtps: to remove some false S picks (they may be P picks but wrongly
         // identified as S picks, it happens!)
-        //fprintf(stderr, "ns0_start: %d, ns0_end: %d\n", ns0_start, ns0_end);
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
             flag1 = 0;
             for (ll = 0; ll < usize; ll++){
-                fprintf(stderr, "strig0: %lf, sused: %lf\n", strig0[i][1][j], sused[ll]);
                 if (strig0[i][1][j]<=sused[ll]+0.1 && strig0[i][1][j]>=sused[ll]-0.1){
                     flag1 = 1;
                 }
             }
-            fprintf(stderr, "flag1: %d\n", flag1);
             if ((strig0[i][1][j]==-1) || (flag1==1)){
             // if corresponding j for p gives 0 or is a j used in p
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][0][j] - ptemp) > dtps && strig0[i][0][j] > ts_pre_b && strig0[i][0][j] < ts_pre_e && GCarc < GCarc0) {
@@ -2314,7 +2303,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     }
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
-    //fprintf(stderr, "pcount: %d, scount: %d, ps: %d, psboth: %d\n",pcount, scount, ps, psboth);
     if (pcount >= np0 && scount >= ns0 && ps >= nps0 && psboth >= npsboth0 && (ps > rnps * nps0 || (ps <= rnps * nps0 && psweig >= rweig * ps))) {
         for (i = 0; i < ps; i++) {
             for (j = i; j < ps; j++) {
