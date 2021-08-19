@@ -2200,6 +2200,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     int puse, psboth, flag1, ll, usize;
     double psweig, weig, degg;
 
+    free(sused);
     pcount = 0;
     scount = 0;
     ps = 0;
@@ -2277,7 +2278,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 break;
             }
         }
-
+        printf("Before flag1\n");
         // dtps: to remove some false S picks (they may be P picks but wrongly
         // identified as S picks, it happens!)
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
@@ -2287,7 +2288,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                     flag1 = 1;
                 }
             }
-            free(sused);
+
             if (flag1==1 || strig0[i][j][2]==-1){
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][j][0] - ptemp) > dtps && strig0[i][j][0] > ts_pre_b && strig0[i][j][0] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][j][0] - ts_cal;
