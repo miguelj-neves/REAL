@@ -640,6 +640,7 @@ int main(int argc, char** argv)
         Sortpscounts(pscounts, nnn);
 
         if (pscounts[nnn - 1][4] >= np0 && pscounts[nnn - 1][5] >= ns0 && pscounts[nnn - 1][7] >= nps0 && pscounts[nnn - 1][6] <= std0 && pscounts[nnn - 1][8] <= GAPTH && pscounts[nnn - 1][9] >= npsboth0 && (pscounts[nnn - 1][7] > rnps * nps0 || ((pscounts[nnn - 1][7] <= rnps * nps0) && pscounts[nnn - 1][10] >= rweig * pscounts[nnn - 1][7]))) {
+            printf("Inside location\n");
             told = pscounts[nnn - 1][3];
             ttd = (int)(pscounts[nnn - 1][3] / 86400);
             tth = (int)((pscounts[nnn - 1][3] - ttd * 86400) / 3600);
