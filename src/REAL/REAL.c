@@ -2220,7 +2220,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     for (k = 0; k < 2 * Nst; k++)
         stagap[k] = 0.0;
 
-    printf("Before ddistaz\n");
     ddistaz(lat0, lon0, latref, lonref, &GCarc, &baz);
     ih = round(dep / tdh);
     ig = ih * rint(trx / tdx) + rint(GCarc / tdx);
@@ -2265,7 +2264,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         if (usize<1){
             usize=1;
         }
-        printf("Before sused: %d\n",usize);
         sused = (int*)malloc(usize * sizeof(int));
         for (j = 0; j < usize; j++) {
             sused[j] = -3;
@@ -2280,12 +2278,12 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 puse = 1;
                 psweig = psweig + weig;
                 ptemp = ptrig0[i][j][0];
-                sused[ll] = ptrig0[i][1][j];
+                sused[ll] = ptrig0[i][j][2];
                 ll = ll +1;
                 break;
             }
         }
-        printf("Before flag1\n");
+
         // dtps: to remove some false S picks (they may be P picks but wrongly
         // identified as S picks, it happens!)
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
