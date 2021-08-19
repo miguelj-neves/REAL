@@ -2202,7 +2202,8 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     extern double** pscounts;
     extern double trx, tdx, tdh, dtps;
     extern double GCarc0, std0;
-    double *torg, *stagap, gap0, gaptemp, gap, *sused;
+    double *torg, *stagap, gap0, gaptemp, gap;
+    int *sused;
     int puse, psboth, flag1, ll, usize;
     double psweig, weig, degg;
 
@@ -2265,7 +2266,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             usize=1;
         }
         printf("Before sused\n");
-        sused = (double*)malloc(usize * sizeof(int));
+        sused = (int*)malloc(usize * sizeof(int));
         for (j = 0; j < usize; j++) {
             sused[j] = -3;
         }
