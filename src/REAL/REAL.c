@@ -2265,7 +2265,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         if (usize<1){
             usize=1;
         }
-        printf("Before sused\n");
+        printf("Before sused: %d\n",usize);
         sused = (int*)malloc(usize * sizeof(int));
         for (j = 0; j < usize; j++) {
             sused[j] = -3;
