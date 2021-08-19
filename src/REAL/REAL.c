@@ -381,6 +381,7 @@ int main(int argc, char** argv)
                     TGS[i][j].indexj = -1;
                 if (TGS[i][j].trig > MAXTIME || TGS[i][j].trig < -1e-8)
                     TGS[i][j].trig = 1.0e8;
+                    TGP[i][j].indexj = -1;
                 if (test == 1)
                     break;
             }
@@ -2113,6 +2114,7 @@ void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
             if ((ts_pre - tp_pre) > dtps && (strig0[i][j][0] - ptemp) > dtps && strig0[i][j][0] > ts_pre_b && strig0[i][j][0] < ts_pre_e && GCarc < GCarc0) {
                 torg[ps] = strig0[i][j][0] - ts_cal;
+                printf("torg: %lf, strig0: %lf, ts_cal: %lf\n", torg[ps], strig0[i][j][0], ts_cal);
                 stagap[ps] = baz;
                 scount = scount + 1;
                 ps = ps + 1;
