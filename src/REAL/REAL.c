@@ -2319,7 +2319,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             //if ((strig0[i][1][j]<=-1.+0.1 && strig0[i][1][j]>=-1.-0.1) || (flag1==1)){
             // if corresponding j for p gives 0 or is a j used in p
             if (puse == 1) {
-                fprintf(stderr, "(ts_pre - tp_pre): %lf; dtps: %lf; (strig0 - ptemp): %lf; ts_pre_b: %lf, ts_pre_e: %lf, Gcarc: %lf; GCarc0: %lf\n", (ts_pre - tp_pre), dtps,(strig0[i][0][j] - ptemp),ts_pre_b,ts_pre_e,GCarc,GCarc0);
+                fprintf(stderr, "(ts_pre - tp_pre): %lf; dtps: %lf; (strig0 - ptemp): %lf; strig0: %lf; ts_pre_b: %lf, ts_pre_e: %lf, Gcarc: %lf; GCarc0: %lf\n", (ts_pre - tp_pre), dtps,(strig0[i][0][j] - ptemp),strig0[i][0][j],ts_pre_b,ts_pre_e,GCarc,GCarc0);
             }
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][0][j] - ptemp) > dtps && strig0[i][0][j] > ts_pre_b && strig0[i][0][j] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][0][j] - ts_cal;
