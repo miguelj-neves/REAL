@@ -2235,19 +2235,20 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     double *torg, *stagap, gap0, gaptemp, gap, *sused;
     int puse, psboth, flag1;
     double psweig, weig, degg;
+    fprintf(stderr, "Safe 7\n");
 
     pcount = 0;
     scount = 0;
     ps = 0;
     psweig = 0.0;
-
+    fprintf(stderr, "Safe 8\n");
     torg = (double*)malloc(2 * Nst * sizeof(double));
     for (k = 0; k < 2 * Nst; k++)
         torg[k] = 0.0;
     stagap = (double*)malloc(2 * Nst * sizeof(double));
     for (k = 0; k < 2 * Nst; k++)
         stagap[k] = 0.0;
-
+    fprintf(stderr, "Safe 9\n");
     ddistaz(lat0, lon0, latref, lonref, &GCarc, &baz);
     ih = round(dep / tdh);
     ig = ih * rint(trx / tdx) + rint(GCarc / tdx);
@@ -2291,8 +2292,9 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         puse = 0;
         ll = 0;
         usize = np0_end[i] - np0_start[i];
+        fprintf(stderr, "Safe 10\n");
         sused = (double*)malloc(usize * sizeof(double));
-        fprintf(stderr, "Safe 7\n");
+        fprintf(stderr, "Safe 11\n");
         for (j = np0_start[i]; j < np0_end[i]; j++) {
             if (ptrig0[i][0][j] > tp_pre_b && ptrig0[i][0][j] < tp_pre_e && GCarc < GCarc0) {
                 torg[ps] = ptrig0[i][0][j] - tp_cal;
@@ -2389,6 +2391,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     free(torg);
     free(stagap);
     free(sused);
+    fprintf(stderr, "Safe 12\n");
 }
 
 /*
