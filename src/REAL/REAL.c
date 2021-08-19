@@ -1829,7 +1829,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
         for (j = 0; j < n; ++j) {
             if (tgb[i][j].weightp==0.) {
                 temp_indexp[i][j]=-2.;
-                tgb[i][j].trigp=1.0e8
+                tgb[i][j].trigp=1.0e8;
             }
             else{
                 temp_indexp[i][j] = (double)j;
@@ -1899,7 +1899,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
         for (j = 0; j < n; ++j) {
             if (tgb[i][j].weights==0.) {
                 temp_index[i][j]=-2.;
-                tgb[i][j].trigs=1.0e8
+                tgb[i][j].trigs=1.0e8;
             }
             else {
                 temp_index[i][j] = (double)j;
