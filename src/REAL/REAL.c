@@ -638,6 +638,11 @@ int main(int argc, char** argv)
         printf("Sort counts\n");
         // sort pscounts
         Sortpscounts(pscounts, nnn);
+        for (k = 0; k < nnn; k++) {
+            printf("%12.4lf %12.4lf %12.4lf %12.4lf %4d %4d %4d %8.4lf\n",pscounts[k][3], pscounts[k][0], pscounts[k][1], pscounts[k][2],
+                (int)pscounts[k][4], (int)pscounts[k][5], (int)pscounts[k][7],
+                pscounts[k][6]);
+        }
 
         if (pscounts[nnn - 1][4] >= np0 && pscounts[nnn - 1][5] >= ns0 && pscounts[nnn - 1][7] >= nps0 && pscounts[nnn - 1][6] <= std0 && pscounts[nnn - 1][8] <= GAPTH && pscounts[nnn - 1][9] >= npsboth0 && (pscounts[nnn - 1][7] > rnps * nps0 || ((pscounts[nnn - 1][7] <= rnps * nps0) && pscounts[nnn - 1][10] >= rweig * pscounts[nnn - 1][7]))) {
             printf("Inside location\n");
