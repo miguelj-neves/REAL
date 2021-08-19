@@ -2218,6 +2218,7 @@ void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
 void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     double lonref, double elevref, int l)
 {
+    free(sused);
     int pcount, scount, ps, usize;
     int i, j, k, ig, ih, ll;
     double GCarc, baz, median, std, ptemp;
