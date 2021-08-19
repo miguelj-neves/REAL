@@ -2297,6 +2297,9 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 pcount = pcount + 1;
                 ps = ps + 1;
                 puse = 1;
+                if (puse == 1) {
+                  fprintf(stderr, "There's one\n");
+                }
                 psweig = psweig + weig;
                 ptemp = ptrig0[i][0][j];
                 sused[ll] = ptrig0[i][1][j];
@@ -2335,7 +2338,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     }
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
-    if (scount>0){
+    if (psboth>0){
         fprintf(stderr, "p counted: %d;S counted: %d\n", pcount, scount);
     }
 
