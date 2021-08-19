@@ -2310,8 +2310,9 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 }
             }
         }
+        free(sused);
     }
-    free(sused);
+
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
     if (pcount >= np0 && scount >= ns0 && ps >= nps0 && psboth >= npsboth0 && (ps > rnps * nps0 || (ps <= rnps * nps0 && psweig >= rweig * ps))) {
