@@ -540,7 +540,7 @@ int main(int argc, char** argv)
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
-        fprintf(stderr, "Safe 2\n");
+
         if (fabs(tpmin0 - 1.0e8) < 1)
             break;
         lonref = ST[m].stlo;
@@ -563,7 +563,6 @@ int main(int argc, char** argv)
         tsmax = tpmin0 + (GCarc0 * 111.19 / vs0) + nrt * stw;
 
         Nps2 = DetermineNprange(ptrig, tpmax, Nst, Nps);
-        fprintf(stderr, "Safe 3\n");
 
         /*if (tpmin < 0.0)
             tpmin = 0.0;
@@ -575,7 +574,7 @@ int main(int argc, char** argv)
             tsmax = MAXTIME;
 
         DetermineNps0range(ptrig0, strig0, tpmin, tpmax, tsmin, tsmax, Nst, NNps);
-        fprintf(stderr, "Safe 4\n");
+
         for (k = 0; k < nnn; k++) {
             for (l = 0; l < 11; l++) {
                 pscounts[k][l] = 0.0;
@@ -618,7 +617,7 @@ int main(int argc, char** argv)
             }
 #pragma omp barrier
         }
-        fprintf(stderr, "Safe 5\n");
+
         // only output the resolution file for the first effective event (the first
         // pick should be true)
         if (ires == 1) {
@@ -632,12 +631,11 @@ int main(int argc, char** argv)
             fclose(fpr);
             exit(-1);
         }
-        fprintf(stderr, "Safe 6\n");
 
         // sort pscounts
 
         Sortpscounts(pscounts, nnn);
-
+        fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
         if (pscounts[nnn - 1][4] >= np0 && pscounts[nnn - 1][5] >= ns0 && pscounts[nnn - 1][7] >= nps0 && pscounts[nnn - 1][6] <= std0 && pscounts[nnn - 1][8] <= GAPTH && pscounts[nnn - 1][9] >= npsboth0 && (pscounts[nnn - 1][7] > rnps * nps0 || ((pscounts[nnn - 1][7] <= rnps * nps0) && pscounts[nnn - 1][10] >= rweig * pscounts[nnn - 1][7]))) {
             told = pscounts[nnn - 1][3];
             ttd = (int)(pscounts[nnn - 1][3] / 86400);
@@ -713,7 +711,6 @@ int main(int argc, char** argv)
             if (iremove < 1.0e-5) {
                 DeleteOne(ptrig, m, Nps, n);
             }
-            fprintf(stderr, "Safe 7\n");
         } else {
             DeleteOne(ptrig, m, Nps, n);
         }
@@ -2236,20 +2233,17 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     int puse, psboth, flag1;
     double psweig, weig, degg;
     free(sused);
-    fprintf(stderr, "Safe 7\n");
 
     pcount = 0;
     scount = 0;
     ps = 0;
     psweig = 0.0;
-    fprintf(stderr, "Safe 8\n");
     torg = (double*)malloc(2 * Nst * sizeof(double));
     for (k = 0; k < 2 * Nst; k++)
         torg[k] = 0.0;
     stagap = (double*)malloc(2 * Nst * sizeof(double));
     for (k = 0; k < 2 * Nst; k++)
         stagap[k] = 0.0;
-    fprintf(stderr, "Safe 9\n");
     ddistaz(lat0, lon0, latref, lonref, &GCarc, &baz);
     ih = round(dep / tdh);
     ig = ih * rint(trx / tdx) + rint(GCarc / tdx);
@@ -2293,9 +2287,9 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         puse = 0;
         ll = 0;
         usize = np0_end[i] - np0_start[i];
-        fprintf(stderr, "Safe 10\n");
+
         sused = (double*)malloc(usize * sizeof(double));
-        fprintf(stderr, "Safe 11\n");
+
         for (j = np0_start[i]; j < np0_end[i]; j++) {
             if (ptrig0[i][0][j] > tp_pre_b && ptrig0[i][0][j] < tp_pre_e && GCarc < GCarc0) {
                 torg[ps] = ptrig0[i][0][j] - tp_cal;
@@ -2392,7 +2386,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     free(torg);
     free(stagap);
     free(sused);
-    fprintf(stderr, "Safe 12\n");
 }
 
 /*
