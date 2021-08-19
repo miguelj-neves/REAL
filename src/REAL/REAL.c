@@ -2318,9 +2318,9 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             }*/
             //if ((strig0[i][1][j]<=-1.+0.1 && strig0[i][1][j]>=-1.-0.1) || (flag1==1)){
             // if corresponding j for p gives 0 or is a j used in p
-            if (puse == 1) {
-                fprintf(stderr, "(ts_pre - tp_pre): %lf; dtps: %lf; (strig0 - ptemp): %lf; strig0: %lf; ts_pre_b: %lf, ts_pre_e: %lf, Gcarc: %lf; GCarc0: %lf\n", (ts_pre - tp_pre), dtps,(strig0[i][0][j] - ptemp),strig0[i][0][j],ts_pre_b,ts_pre_e,GCarc,GCarc0);
-            }
+            //if (puse == 1) {
+            //    fprintf(stderr, "(ts_pre - tp_pre): %lf; dtps: %lf; (strig0 - ptemp): %lf; strig0: %lf; ts_pre_b: %lf, ts_pre_e: %lf, Gcarc: %lf; GCarc0: %lf\n", (ts_pre - tp_pre), dtps,(strig0[i][0][j] - ptemp),strig0[i][0][j],ts_pre_b,ts_pre_e,GCarc,GCarc0);
+            //}
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][0][j] - ptemp) > dtps && strig0[i][0][j] > ts_pre_b && strig0[i][0][j] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][0][j] - ts_cal;
                     stagap[ps] = baz;
@@ -2340,7 +2340,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
     if (psboth>0){
-        fprintf(stderr, "p counted: %d;S counted: %d\n", pcount, scount);
+        fprintf(stderr, "p counted: %d;S counted: %d; psboth: %d\n", pcount, scount, psboth);
     }
 
     if (pcount >= np0 && scount >= ns0 && ps >= nps0 && psboth >= npsboth0 && (ps > rnps * nps0 || (ps <= rnps * nps0 && psweig >= rweig * ps))) {
