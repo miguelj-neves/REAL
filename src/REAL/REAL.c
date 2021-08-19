@@ -26,7 +26,7 @@
  *  Now at Dalhousie University (miao.zhang@dal.ca)
  *
  *Reference:
- *  Miao Zhang, William Ellsworth and Greg Beroza, Rapid Earthquake Association and Location, 2019 
+ *  Miao Zhang, William Ellsworth and Greg Beroza, Rapid Earthquake Association and Location, 2019
  *  https://doi.org/10.1785/0220190052
  *
  *Revision history:
@@ -138,6 +138,9 @@ typedef struct trigg {
     double trig;
     double weight;
     double amp;
+    int indexi;
+    int indexj;
+    double weighte;
 } TRIG;
 
 typedef struct stationinfo {
@@ -153,18 +156,18 @@ void ddistaz(double, double, double, double, double*, double*);
 double CalculateMedian(double*, int);
 double CalculateMean(double*, int);
 double CalculateStd(double*, double, int);
-double Find_min(double**, int, int);
-double Find_max(double**, int, int);
-void Find_min_loc(double**, int, int, double*, int*, int*);
+double Find_min(double***, int, int);
+double Find_max(double***, int, int);
+void Find_min_loc(double***, int, int, double*, int*, int*);
 int Readttime(char*, TTT*, int);
 int Readstation(char*, STATION*, int);
 int DetermineNp(double**, int, int);
 int DetermineNg(TRIG**, TRIG**, int, int);
-void SortTriggers0(TRIG**, TRIG**, double**, double**, double**, double**,
+void SortTriggers0(TRIG**, TRIG**, double***, double***, double**, double**,
     double**, double**, int, int);
-void DeleteOne(double**, int, int, int);
-int DetermineNprange(double**, double, int, int);
-void DetermineNps0range(double**, double**, double, double, double, double,
+void DeleteOne(double***, int, int, int);
+int DetermineNprange(double***, double, int, int);
+void DetermineNps0range(double***, double***, double, double, double, double,
     int, int);
 int ReselectFinal(SELECT*, int);
 void ReselectClear(CLEARUP*, int, double);
@@ -184,7 +187,7 @@ HYPO* loc;
 TRIG **TGP, **TGS;
 TTT* TB;
 double ptw, stw, nrt, drt;
-double **ptrig, **temp, **ptrig0, **strig0;
+double ***ptrig, **temp, ***ptrig0, ***strig0;
 double vp0, vs0, s_vp0, s_vs0;
 int NNps, Nps2;
 int igrid;
@@ -344,15 +347,20 @@ int main(int argc, char** argv)
             TGP[i][j].trig = 1.0e8;
             TGP[i][j].weight = 0.0;
             TGP[i][j].amp = 0.0;
+            TGP[i][j].indexi = i;
+            TGP[i][j].indexj = j;
             TGS[i][j].trig = 1.0e8;
             TGS[i][j].weight = 0.0;
             TGS[i][j].amp = 0.0;
+            TGS[i][j].indexi = i;
+            TGS[i][j].indexj = j;
         }
     }
 
     for (i = 0; i < Nst; i++) {
+        // Read common P and S phase file
         istaremove = 0;
-        sprintf(input, "%s/%s.%s.P.txt", dir, ST[i].net, ST[i].sta);
+        sprintf(input, "%s/%s.%s.PS.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
             // fprintf(stderr, "Can not open file in ReadFile %s\n", input);
             istaremove++;
@@ -360,18 +368,22 @@ int main(int argc, char** argv)
             test = 0;
             for (j = 0; j < Nps; j++) {
                 if (fscanf(fp, "%lf %lf %lf", &TGP[i][j].trig, &TGP[i][j].weight,
-                        &TGP[i][j].amp)
+                        &TGP[i][j].amp, &TGS[i][j].trig, &TGS[i][j].weight, &TGS[i][j].amp, &TGP[i][j].weighte)
                     == EOF)
                     test = 1;
-                if (TGP[i][j].trig > MAXTIME)
+                TGS[i][j].weighte = TGP[i][j].weighte;
+                if (TGP[i][j].trig > MAXTIME || TGP[i][j].weight == 0)
                     TGP[i][j].trig = 1.0e8;
+                    TGS[i][j].indexj = -1;
+                if (TGS[i][j].trig > MAXTIME || TGS[i][j].weight == 0)
+                    TGS[i][j].trig = 1.0e8;
                 if (test == 1)
                     break;
             }
             fclose(fp);
         }
 
-        sprintf(input, "%s/%s.%s.S.txt", dir, ST[i].net, ST[i].sta);
+        /*sprintf(input, "%s/%s.%s.S.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
             // fprintf(stderr, "Can not open file in ReadFile %s\n", input);
             istaremove++;
@@ -388,10 +400,10 @@ int main(int argc, char** argv)
                     break;
             }
             fclose(fp);
-        }
+        }*/
         // remove the station from station.dat if no any P or S picks recorded at
         // the station
-        if (istaremove == 2) {
+        if (istaremove == 1) {
             Nst = Nst - 1;
             for (j = i; j < Nst; j++) {
                 ST[j] = ST[j + 1];
@@ -444,18 +456,23 @@ int main(int argc, char** argv)
     fprintf(stderr, "Actual     : Nst %-5d Nps %-5d Ntb %-5d\n", Nst, Nps - 1,
         Ntb);
 
-    ptrig = (double**)malloc(sizeof(double*) * Nst);
-    ptrig0 = (double**)malloc(sizeof(double*) * Nst);
-    strig0 = (double**)malloc(sizeof(double*) * Nst);
+    ptrig = (double***)malloc(sizeof(double**) * Nst);
+    ptrig0 = (double***)malloc(sizeof(double**) * Nst);
+    strig0 = (double***)malloc(sizeof(double**) * Nst);
     pamp0 = (double**)malloc(sizeof(double*) * Nst);
     samp0 = (double**)malloc(sizeof(double*) * Nst);
     pweight0 = (double**)malloc(sizeof(double*) * Nst);
     sweight0 = (double**)malloc(sizeof(double*) * Nst);
     temp = (double**)malloc(sizeof(double*) * Nst);
     for (i = 0; i < Nst; i++) {
-        ptrig[i] = (double*)malloc(sizeof(double) * Nps);
-        ptrig0[i] = (double*)malloc(sizeof(double) * Nps);
-        strig0[i] = (double*)malloc(sizeof(double) * Nps);
+        ptrig[i] = (double**)malloc(sizeof(double*) * Nps);
+        ptrig0[i] = (double**)malloc(sizeof(double*) * Nps);
+        strig0[i] = (double**)malloc(sizeof(double*) * Nps);
+        for (j = 0; j < Nps; j++) {
+          ptrig[i][j] = (double*)malloc(sizeof(double) * 3);
+          ptrig0[i][j] = (double*)malloc(sizeof(double) * 3);
+          strig0[i][j] = (double*)malloc(sizeof(double) * 3);
+        }
         pamp0[i] = (double*)malloc(sizeof(double) * Nps);
         samp0[i] = (double*)malloc(sizeof(double) * Nps);
         pweight0[i] = (double*)malloc(sizeof(double) * Nps);
@@ -496,7 +513,9 @@ int main(int argc, char** argv)
     SortTriggers0(TGP, TGS, ptrig0, strig0, pamp0, samp0, pweight0, sweight0, Nst, Nps);
     for (i = 0; i < Nst; i++) {
         for (j = 0; j < Nps; j++) {
-            ptrig[i][j] = ptrig0[i][j];
+            ptrig[i][j][0] = ptrig0[i][j][0];
+            ptrig[i][j][1] = ptrig0[i][j][1];
+            ptrig[i][j][2] = ptrig0[i][j][2];
         }
     }
 
@@ -679,7 +698,7 @@ int main(int argc, char** argv)
 
                     // To speed up, remove those associated P picks
                     for (j = 0; j < Nps2; j++) {
-                        if (ptrig[k][j] > tp_pre_b && ptrig[k][j] < tp_pre_e) {
+                        if (ptrig[k][j][0] > tp_pre_b && ptrig[k][j][0] < tp_pre_e) {
                             DeleteOne(ptrig, k, Nps, j);
                             iremove++;
                             break;
@@ -758,14 +777,14 @@ int main(int argc, char** argv)
             puse = 0;
             for (j = 0; j < NNps; j++) {
                 // rsel*std to remove some picks with large residuals
-                if (ptrig0[k][j] > tp_pre_b && ptrig0[k][j] < tp_pre_e && fabs(ptrig0[k][j] - tp_pre) < rsel * RELC[i].std1 && ptrig0[k][j] > RELC[i].atime1 && GCarc < GCarc0) {
+                if (ptrig0[k][j][0] > tp_pre_b && ptrig0[k][j][0] < tp_pre_e && fabs(ptrig0[k][j][0] - tp_pre) < rsel * RELC[i].std1 && ptrig0[k][j][0] > RELC[i].atime1 && GCarc < GCarc0) {
                     strcpy(CLEAR[i].pk[ps].net, ST[k].net);
                     strcpy(CLEAR[i].pk[ps].sta, ST[k].sta);
                     strcpy(CLEAR[i].pk[ps].phase, "P");
-                    CLEAR[i].pk[ps].abs_pk = ptrig0[k][j];
-                    CLEAR[i].pk[ps].pk = ptrig0[k][j] - RELC[i].atime1;
+                    CLEAR[i].pk[ps].abs_pk = ptrig0[k][j][0];
+                    CLEAR[i].pk[ps].pk = ptrig0[k][j][0] - RELC[i].atime1;
                     CLEAR[i].pk[ps].amp = pamp0[k][j];
-                    CLEAR[i].pk[ps].res = ptrig0[k][j] - tp_pre;
+                    CLEAR[i].pk[ps].res = ptrig0[k][j][0] - tp_pre;
                     CLEAR[i].pk[ps].baz = baz;
                     CLEAR[i].pk[ps].weig = pweight0[k][j];
                     CLEAR[i].pk[ps].stlat = ST[k].stla;
@@ -779,7 +798,7 @@ int main(int argc, char** argv)
                     ps++;
                     psweig = psweig + weig;
                     puse = 1;
-                    ptemp = ptrig0[k][j];
+                    ptemp = ptrig0[k][j][0];
                     break;
                 }
             }
@@ -788,14 +807,14 @@ int main(int argc, char** argv)
             // identified as S picks, it happens!) rsel*std to remove some picks with
             // large residuals
             for (j = 0; j < NNps; j++) {
-                if ((ts_pre - tp_pre) > dtps && (strig0[k][j] - ptemp) > dtps && strig0[k][j] > ts_pre_b && strig0[k][j] < ts_pre_e && fabs(strig0[k][j] - ts_pre) < rsel * RELC[i].std1 && strig0[k][j] > RELC[i].atime1 && GCarc < GCarc0) {
+                if ((ts_pre - tp_pre) > dtps && (strig0[k][j][0] - ptemp) > dtps && strig0[k][j][0] > ts_pre_b && strig0[k][j][0] < ts_pre_e && fabs(strig0[k][j][0] - ts_pre) < rsel * RELC[i].std1 && strig0[k][j][0] > RELC[i].atime1 && GCarc < GCarc0) {
                     strcpy(CLEAR[i].pk[ps].net, ST[k].net);
                     strcpy(CLEAR[i].pk[ps].sta, ST[k].sta);
                     strcpy(CLEAR[i].pk[ps].phase, "S");
-                    CLEAR[i].pk[ps].abs_pk = strig0[k][j];
+                    CLEAR[i].pk[ps].abs_pk = strig0[k][j][0];
                     CLEAR[i].pk[ps].pk = strig0[k][j] - RELC[i].atime1;
                     CLEAR[i].pk[ps].amp = samp0[k][j];
-                    CLEAR[i].pk[ps].res = strig0[k][j] - ts_pre;
+                    CLEAR[i].pk[ps].res = strig0[k][j][0] - ts_pre;
                     CLEAR[i].pk[ps].baz = baz;
                     CLEAR[i].pk[ps].weig = sweight0[k][j];
                     CLEAR[i].pk[ps].stlat = ST[k].stla;
@@ -893,7 +912,7 @@ int main(int argc, char** argv)
     fclose(fp1);
     fclose(fp2);
 
-    fprintf(stderr,"before second selection: %d\n",nselect); 
+    fprintf(stderr,"before second selection: %d\n",nselect);
     fprintf(stderr,"remove suspicious events, outlier picks and duplicate associated picks\n");
     fprintf(stderr, "after second selection: %d\n",nk);
 
@@ -939,6 +958,11 @@ int main(int argc, char** argv)
     free(ns0_start);
     free(ns0_end);
     for (i = 0; i < Nst; i++) {
+        for (j = 0; j < Nps; j++) {
+            free(ptrig[i][j]);
+            free(ptrig0[i][j]);
+            free(strig0[i][j]);
+        }
         free(ptrig[i]);
         free(ptrig0[i]);
         free(strig0[i]);
@@ -1610,7 +1634,7 @@ int Readstation(char* name, STATION* ST, int nmax)
     return i;
 }
 
-double Find_min(double** array, int n1, int n2)
+double Find_min(double*** array, int n1, int n2)
 {
     int i, j;
     double amin;
@@ -1618,15 +1642,15 @@ double Find_min(double** array, int n1, int n2)
     amin = 1.0e8;
     for (i = 0; i < n1; i++) {
         for (j = 0; j < n2; j++) {
-            if (array[i][j] < amin) {
-                amin = array[i][j];
+            if (array[i][j][0] < amin) {
+                amin = array[i][j][0];
             }
         }
     }
     return amin;
 }
 
-double Find_max(double** array, int n1, int n2)
+double Find_max(double*** array, int n1, int n2)
 {
     int i, j;
     double amin;
@@ -1634,15 +1658,15 @@ double Find_max(double** array, int n1, int n2)
     amin = -1.0e8;
     for (i = 0; i < n1; i++) {
         for (j = 0; j < n2; j++) {
-            if (array[i][j] > amin && array[i][j] < 1.0e8) {
-                amin = array[i][j];
+            if (array[i][j][0] > amin && array[i][j][0] < 1.0e8) {
+                amin = array[i][j][0];
             }
         }
     }
     return amin;
 }
 
-void Find_min_loc(double** array, int n1, int n2, double* amin, int* m,
+void Find_min_loc(double*** array, int n1, int n2, double* amin, int* m,
     int* n)
 {
     int i, j;
@@ -1650,8 +1674,8 @@ void Find_min_loc(double** array, int n1, int n2, double* amin, int* m,
     *amin = 1.0e8;
     for (i = 0; i < n1; i++) {
         for (j = 0; j < n2; j++) {
-            if (array[i][j] < *amin) {
-                *amin = array[i][j];
+            if (array[i][j][0] < *amin) {
+                *amin = array[i][j][0];
                 *m = i;
                 *n = j;
             }
@@ -1712,7 +1736,7 @@ int DetermineNp(double** ar1, int n1, int n2)
 }
 
 // find Np range with effective time window
-int DetermineNprange(double** ar1, double tpmax, int Nst, int Nps)
+int DetermineNprange(double*** ar1, double tpmax, int Nst, int Nps)
 {
     int i, j, Nps0, Nps00;
     Nps00 = 0;
@@ -1721,7 +1745,7 @@ int DetermineNprange(double** ar1, double tpmax, int Nst, int Nps)
     // determine the upper bound for tpmax
     for (i = 0; i < Nst; i++) {
         for (j = 1; j < Nps; j++) {
-            if (ar1[i][j] > tpmax && ar1[i][j - 1] < tpmax) {
+            if (ar1[i][j][0] > tpmax && ar1[i][j - 1][0] < tpmax) {
                 Nps0 = j;
                 break;
             }
@@ -1733,7 +1757,7 @@ int DetermineNprange(double** ar1, double tpmax, int Nst, int Nps)
     return Nps00 + 1;
 }
 
-void DetermineNps0range(double** ar1, double** ar2, double tpmin, double tpmax,
+void DetermineNps0range(double*** ar1, double*** ar2, double tpmin, double tpmax,
     double tsmin, double tsmax, int Nst, int Nps)
 {
     int i, j;
@@ -1743,7 +1767,7 @@ void DetermineNps0range(double** ar1, double** ar2, double tpmin, double tpmax,
     for (i = 0; i < Nst; i++) {
         np0_start[i] = 0;
         for (j = 1; j < Nps; j++) {
-            if (ar1[i][j] > tpmin && ar1[i][j - 1] < tpmin) {
+            if (ar1[i][j][0] > tpmin && ar1[i][j - 1][0] < tpmin) {
                 np0_start[i] = j - 1;
                 break;
             }
@@ -1752,7 +1776,7 @@ void DetermineNps0range(double** ar1, double** ar2, double tpmin, double tpmax,
     for (i = 0; i < Nst; i++) {
         np0_end[i] = 0;
         for (j = 1; j < Nps; j++) {
-            if (ar1[i][j] > tpmax && ar1[i][j - 1] < tpmax) {
+            if (ar1[i][j][0] > tpmax && ar1[i][j - 1][0] < tpmax) {
                 np0_end[i] = j;
                 break;
             }
@@ -1762,7 +1786,7 @@ void DetermineNps0range(double** ar1, double** ar2, double tpmin, double tpmax,
     for (i = 0; i < Nst; i++) {
         ns0_start[i] = 0;
         for (j = 1; j < Nps; j++) {
-            if (ar2[i][j] > tsmin && ar2[i][j - 1] < tsmin) {
+            if (ar2[i][j][0] > tsmin && ar2[i][j - 1][0] < tsmin) {
                 ns0_start[i] = j - 1;
                 break;
             }
@@ -1771,7 +1795,7 @@ void DetermineNps0range(double** ar1, double** ar2, double tpmin, double tpmax,
     for (i = 0; i < Nst; i++) {
         ns0_end[i] = 0;
         for (j = 1; j < Nps; j++) {
-            if (ar2[i][j] > tsmax && ar2[i][j - 1] < tsmax) {
+            if (ar2[i][j][0] > tsmax && ar2[i][j - 1][0] < tsmax) {
                 ns0_end[i] = j;
                 break;
             }
@@ -1779,12 +1803,12 @@ void DetermineNps0range(double** ar1, double** ar2, double tpmin, double tpmax,
     }
 }
 
-void SortTriggers0(TRIG** tgp, TRIG** tgs, double** array1, double** array2,
+void SortTriggers0(TRIG** tgp, TRIG** tgs, double*** array1, double*** array2,
     double** pamp, double** samp, double** pweight,
     double** sweight, int m, int n)
 {
     int i, j, k;
-    double a, b, c;
+    double a, b, c, d, e, f;
 
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
@@ -1793,42 +1817,68 @@ void SortTriggers0(TRIG** tgp, TRIG** tgs, double** array1, double** array2,
                     a = tgp[i][j].trig;
                     b = tgp[i][j].weight;
                     c = tgp[i][j].amp;
+                    d = tgp[i][j].weighte;
+                    e = tgp[i][j].indexi;
+                    f = tgp[i][j].indexj;
                     tgp[i][j].trig = tgp[i][k].trig;
                     tgp[i][j].weight = tgp[i][k].weight;
                     tgp[i][j].amp = tgp[i][k].amp;
+                    tgp[i][j].weighte = tgp[i][k].weighte;
+                    tgp[i][j].indexi = tgp[i][k].indexi;
+                    tgp[i][j].indexj = tgp[i][k].indexj;
                     tgp[i][k].trig = a;
                     tgp[i][k].weight = b;
                     tgp[i][k].amp = c;
+                    tgp[i][k].weighte = d;
+                    tgp[i][k].indexi = e;
+                    tgp[i][k].indexj = f;
                 }
                 if (tgs[i][j].trig > tgs[i][k].trig) {
                     a = tgs[i][j].trig;
                     b = tgs[i][j].weight;
                     c = tgs[i][j].amp;
+                    d = tgs[i][j].weighte;
+                    e = tgs[i][j].indexi;
+                    j = tgs[i][j].indexj;
                     tgs[i][j].trig = tgs[i][k].trig;
                     tgs[i][j].weight = tgs[i][k].weight;
                     tgs[i][j].amp = tgs[i][k].amp;
+                    tgs[i][j].weighte = tgs[i][k].weighte;
+                    tgs[i][j].indexi = tgs[i][k].indexi;
+                    tgs[i][j].indexj = tgs[i][k].indexj;
                     tgs[i][k].trig = a;
                     tgs[i][k].weight = b;
                     tgs[i][k].amp = c;
+                    tgs[i][k].weighte = d;
+                    tgs[i][k].indexi = e;
+                    tgs[i][k].indexj = f;
                 }
             }
         }
     }
 
     for (i = 0; i < m; i++) {
-        array1[i][0] = tgp[i][0].trig;
-        array2[i][0] = tgs[i][0].trig;
+        array1[i][0][0] = tgp[i][0].trig;
+        array2[i][0][0] = tgs[i][0].trig;
+        array1[i][0][1] = tgp[i][0].indexi;
+        array2[i][0][1] = tgs[i][0].indexi;
+        array1[i][0][2] = tgp[i][0].indexj;
+        array2[i][0][2] = tgs[i][0].indexj;
         pamp[i][0] = tgp[i][0].amp;
         samp[i][0] = tgs[i][0].amp;
         pweight[i][0] = tgp[i][0].weight;
         sweight[i][0] = tgs[i][0].weight;
         for (j = 1; j < n; j++) {
             if (tgp[i][j].trig - tgp[i][j - 1].trig < ptw) {
-                if (tgp[i][j].weight > tgp[i][j - 1].weight) {
-                    array1[i][j] = tgp[i][j].trig;
+                if (tgp[i][j].weighte > tgp[i][j - 1].weighte) {
+                    array1[i][j][0] = tgp[i][j][0].trig;
+                    array1[i][j][1] = tgp[i][j][0].indexi;
+                    array1[i][j][2] = tgp[i][j][0].indexj;
                     pamp[i][j] = tgp[i][j].amp;
                     pweight[i][j] = tgp[i][j].weight;
-                    array1[i][j - 1] = 1.0e8;
+                    array1[i][j - 1][0] = 1.0e8;
+                    array1[i][j - 1][1] = -2;
+                    array1[i][j - 1][2] = -2;
                     pamp[i][j - 1] = 0.0;
                     pweight[i][j - 1] = 0.0;
                 } else {
@@ -1837,26 +1887,36 @@ void SortTriggers0(TRIG** tgp, TRIG** tgs, double** array1, double** array2,
                     pweight[i][j] = 0.0;
                 }
             } else {
-                array1[i][j] = tgp[i][j].trig;
+                array1[i][j][0] = tgp[i][j].trig;
+                array1[i][j][1] = tgp[i][j].indexi;
+                array1[i][j][2] = tgp[i][j].indexj;
                 pamp[i][j] = tgp[i][j].amp;
                 pweight[i][j] = tgp[i][j].weight;
             }
 
             if (tgs[i][j].trig - tgs[i][j - 1].trig < stw) {
-                if (tgs[i][j].weight > tgs[i][j - 1].weight) {
-                    array2[i][j] = tgs[i][j].trig;
+                if (tgs[i][j].weighte > tgs[i][j - 1].weighte) {
+                    array2[i][j][0] = tgs[i][j].trig;
+                    array2[i][j][1] = tgs[i][j].indexi;
+                    array2[i][j][2] = tgs[i][j].indexj;
                     samp[i][j] = tgs[i][j].amp;
                     sweight[i][j] = tgs[i][j].weight;
-                    array2[i][j - 1] = 1.0e8;
+                    array2[i][j - 1][0] = 1.0e8;
+                    array2[i][j - 1][1] = -2;
+                    array2[i][j - 1][2] = -2;
                     samp[i][j - 1] = 0.0;
                     sweight[i][j - 1] = 0.0;
                 } else {
-                    array2[i][j] = 1.0e8;
+                    array2[i][j][0] = 1.0e8;
+                    array2[i][j][1] = -2;
+                    array2[i][j][2] = -2;
                     samp[i][j] = 0.0;
                     sweight[i][j] = 0.0;
                 }
             } else {
                 array2[i][j] = tgs[i][j].trig;
+                array2[i][j][1] = tgs[i][j].indexi;
+                array2[i][j][2] = tgs[i][j].indexj;
                 samp[i][j] = tgs[i][j].amp;
                 sweight[i][j] = tgs[i][j].weight;
             }
@@ -1867,39 +1927,55 @@ void SortTriggers0(TRIG** tgp, TRIG** tgs, double** array1, double** array2,
         for (j = 0; j < n; ++j) {
             for (k = (j + 1); k < n; ++k) {
                 if (array1[i][j] > array1[i][k]) {
-                    a = array1[i][j];
+                    a = array1[i][j][0];
                     b = pamp[i][j];
                     c = pweight[i][j];
-                    array1[i][j] = array1[i][k];
+                    d = array1[i][j][1];
+                    e = array1[i][j][2];
+                    array1[i][j][0] = array1[i][k][0];
+                    array1[i][j][1] = array1[i][k][1];
+                    array1[i][j][2] = array1[i][k][2];
                     pamp[i][j] = pamp[i][k];
                     pweight[i][j] = pweight[i][k];
-                    array1[i][k] = a;
+                    array1[i][k][0] = a;
                     pamp[i][k] = b;
                     pweight[i][k] = c;
+                    array1[i][k][1] = d;
+                    array1[i][k][2] = e;
                 }
                 if (array2[i][j] > array2[i][k]) {
-                    a = array2[i][j];
+                    a = array2[i][j][0];
                     b = samp[i][j];
                     c = sweight[i][j];
-                    array2[i][j] = array2[i][k];
+                    d = array2[i][j][1];
+                    e = array2[i][j][2];
+                    array2[i][j][0] = array2[i][k][0];
+                    array2[i][j][1] = array2[i][k][1];
+                    array2[i][j][2] = array2[i][k][2];
                     samp[i][j] = samp[i][k];
                     sweight[i][j] = sweight[i][k];
-                    array2[i][k] = a;
+                    array2[i][k][0] = a;
                     samp[i][k] = b;
                     sweight[i][k] = c;
+                    array2[i][k][1] = d;
+                    array2[i][k][2] = e;
                 }
             }
         }
     }
 }
 
-void DeleteOne(double** array, int Nst0, int Nps0, int Nloc)
+void DeleteOne(double*** array, int Nst0, int Nps0, int Nloc)
 {
     int i;
     for (i = Nloc; i < Nps0 - 1; i++) {
-        array[Nst0][i] = array[Nst0][i + 1];
+        array[Nst0][i][0] = array[Nst0][i + 1][0];
+        array[Nst0][i][1] = array[Nst0][i + 1][1];
+        array[Nst0][i][2] = array[Nst0][i + 1][2];
     }
-    array[Nst0][Nps0 - 1] = 1.0e8;
+    array[Nst0][Nps0 - 1][0] = 1.0e8;
+    array[Nst0][Nps0 - 1][1] = -2;
+    array[Nst0][Nps0 - 1][2] = -2;
 }
 
 void Sortpscounts(double** pscounts0, int np)
@@ -2108,14 +2184,14 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     extern double vp0, vs0, s_vp0, s_vs0;
     extern double nrt, ptw, stw, tpmin0;
     extern int np0, ns0, nps0, npsboth0, Nst, NNps;
-    extern double **ptrig0, **strig0;
+    extern double ***ptrig0, ***strig0;
     extern int *np0_start, *np0_end, *ns0_start, *ns0_end;
     extern STATION* ST;
     extern double** pscounts;
     extern double trx, tdx, tdh, dtps;
     extern double GCarc0, std0;
-    double *torg, *stagap, gap0, gaptemp, gap;
-    int puse, psboth;
+    double *torg, *stagap, gap0, gaptemp, gap, *sused;
+    int puse, psboth, flag1, ll;
     double psweig, weig, degg;
 
     pcount = 0;
@@ -2169,15 +2245,22 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
 
         ptemp = -100;
         puse = 0;
+
+        usize = np0_end[i] - np0_start[i];
+
+        sused = (double*)malloc(usize * sizeof(double));
+        ll=0;
         for (j = np0_start[i]; j < np0_end[i]; j++) {
-            if (ptrig0[i][j] > tp_pre_b && ptrig0[i][j] < tp_pre_e && GCarc < GCarc0) {
-                torg[ps] = ptrig0[i][j] - tp_cal;
+            if (ptrig0[i][j][0] > tp_pre_b && ptrig0[i][j][0] < tp_pre_e && GCarc < GCarc0) {
+                torg[ps] = ptrig0[i][j][0] - tp_cal;
                 stagap[ps] = baz;
                 pcount = pcount + 1;
                 ps = ps + 1;
                 puse = 1;
                 psweig = psweig + weig;
-                ptemp = ptrig0[i][j];
+                ptemp = ptrig0[i][j][0];
+                sused[ll] = ptrig0[i][1][j];
+                ll = ll +1;
                 break;
             }
         }
@@ -2185,19 +2268,28 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         // dtps: to remove some false S picks (they may be P picks but wrongly
         // identified as S picks, it happens!)
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
-            if ((ts_pre - tp_pre) > dtps && (strig0[i][j] - ptemp) > dtps && strig0[i][j] > ts_pre_b && strig0[i][j] < ts_pre_e && GCarc < GCarc0) {
-                torg[ps] = strig0[i][j] - ts_cal;
-                stagap[ps] = baz;
-                scount = scount + 1;
-                ps = ps + 1;
-                psweig = psweig + weig;
-                if (puse == 1) {
-                    psboth++;
+            flag1 = 0;
+            for (ll = 0; ll < usize; ll++){
+                if (strig0[i][j][2]==sused[ll]){
+                    flag1 = 1;
+            }
+            free(sused)
+            if (flag1==1 || strig0[i][j][2]==-1){
+                if ((ts_pre - tp_pre) > dtps && (strig0[i][j][0] - ptemp) > dtps && strig0[i][j][0] > ts_pre_b && strig0[i][j][0] < ts_pre_e && GCarc < GCarc0) {
+                    torg[ps] = strig0[i][j][0] - ts_cal;
+                    stagap[ps] = baz;
+                    scount = scount + 1;
+                    ps = ps + 1;
+                    psweig = psweig + weig;
+                    if (puse == 1) {
+                        psboth++;
+                    }
+                    break;
                 }
-                break;
             }
         }
     }
+    free(sused)
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
     if (pcount >= np0 && scount >= ns0 && ps >= nps0 && psboth >= npsboth0 && (ps > rnps * nps0 || (ps <= rnps * nps0 && psweig >= rweig * ps))) {
