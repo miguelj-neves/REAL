@@ -2297,9 +2297,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 pcount = pcount + 1;
                 ps = ps + 1;
                 puse = 1;
-                if (puse == 1) {
-                  fprintf(stderr, "There's one\n");
-                }
                 psweig = psweig + weig;
                 ptemp = ptrig0[i][0][j];
                 sused[ll] = ptrig0[i][1][j];
@@ -2328,6 +2325,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                     ps = ps + 1;
                     psweig = psweig + weig;
                     if (puse == 1) {
+                        fprintf(stderr, "There's one\n");
                         psboth++;
                     }
                     break;
