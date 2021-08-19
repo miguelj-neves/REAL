@@ -2212,6 +2212,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     for (k = 0; k < 2 * Nst; k++)
         stagap[k] = 0.0;
 
+    printf("Before ddistaz\n");
     ddistaz(lat0, lon0, latref, lonref, &GCarc, &baz);
     ih = round(dep / tdh);
     ig = ih * rint(trx / tdx) + rint(GCarc / tdx);
@@ -2253,10 +2254,11 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         puse = 0;
 
         usize = np0_end[i] - np0_start[i];
-	if (usize<1){
+        if (usize<1){
             usize=1;
         }
-        sused = (double*)malloc(usize * sizeof(double));
+        printf("Before sused\n");
+        sused = (double*)malloc(usize * sizeof(int));
         for (j = 0; j < usize; j++) {
             sused[j] = -3;
         }
