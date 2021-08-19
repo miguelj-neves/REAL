@@ -1,8 +1,8 @@
 #MAC openMP
-CC = gcc-10 -Os -fopenmp -W 
+#CC = gcc-10 -Os -fopenmp -W 
 
 #Linux openMP
-#CC = gcc -Os  -fopenmp -W 
+CC = gcc -Os  -fopenmp -W 
 
 #Serial
 #CC = gcc -Os -W 

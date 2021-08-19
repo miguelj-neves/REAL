@@ -29,9 +29,13 @@
  *  Miao Zhang, William Ellsworth and Greg Beroza, Rapid Earthquake Association and Location, 2019
  *  https://doi.org/10.1785/0220190052
  *
+ *Modified by:
+ *  Miguel Neves, Georgia Institute of Technology
+ *
  *Revision history:
  *  June     2018       M. Zhang    Initial version in C
  *  June     2019       M. Zhang    Release version 1.0
+ *  Aug      2021       M. Neves    Changed S pick choice. Only S picks associated with the used P phases or with no accompanying P-phase in the catalog are used.
  ************************************************************************/
 
 #include <math.h>
@@ -161,7 +165,7 @@ double Find_max(double***, int, int);
 void Find_min_loc(double***, int, int, double*, int*, int*);
 int Readttime(char*, TTT*, int);
 int Readstation(char*, STATION*, int);
-int DetermineNp(double**, int, int);
+int DetermineNp(double***, int, int);
 int DetermineNg(TRIG**, TRIG**, int, int);
 void SortTriggers0(TRIG**, TRIG**, double***, double***, double**, double**,
     double**, double**, int, int);
@@ -200,7 +204,7 @@ double GAPTH;
 double GCarc0;
 double std0, rsel;
 
-int Nst = 500; // maximum number of stations
+int Nst = 560; // maximum number of stations
 int Nps = 20000; // maximum number of P/S picks recorded at one station
 int Ntb = 20000; // maximum number of lines in traveltime table
 double SAcoef = 0.99; // used in simulated annealing relocation
@@ -812,7 +816,7 @@ int main(int argc, char** argv)
                     strcpy(CLEAR[i].pk[ps].sta, ST[k].sta);
                     strcpy(CLEAR[i].pk[ps].phase, "S");
                     CLEAR[i].pk[ps].abs_pk = strig0[k][j][0];
-                    CLEAR[i].pk[ps].pk = strig0[k][j] - RELC[i].atime1;
+                    CLEAR[i].pk[ps].pk = strig0[k][j][0] - RELC[i].atime1;
                     CLEAR[i].pk[ps].amp = samp0[k][j];
                     CLEAR[i].pk[ps].res = strig0[k][j][0] - ts_pre;
                     CLEAR[i].pk[ps].baz = baz;
@@ -1716,14 +1720,14 @@ int DetermineNg(TRIG** ar1, TRIG** ar2, int n1, int n2)
 }
 
 // find largest Np with effective triggers
-int DetermineNp(double** ar1, int n1, int n2)
+int DetermineNp(double*** ar1, int n1, int n2)
 {
     int i, j, Nps1, Nps0;
     Nps1 = 0;
     Nps0 = 0;
     for (i = 0; i < n1; i++) {
         for (j = 1; j < n2; j++) {
-            if (fabs(ar1[i][j] - 1.0e8) < 1 && ar1[i][j - 1] <= MAXTIME) {
+            if (fabs(ar1[i][j][0] - 1.0e8) < 1 && ar1[i][j - 1][0] <= MAXTIME) {
                 Nps0 = j;
                 break;
             }
@@ -1839,7 +1843,7 @@ void SortTriggers0(TRIG** tgp, TRIG** tgs, double*** array1, double*** array2,
                     c = tgs[i][j].amp;
                     d = tgs[i][j].weighte;
                     e = tgs[i][j].indexi;
-                    j = tgs[i][j].indexj;
+                    f = tgs[i][j].indexj;
                     tgs[i][j].trig = tgs[i][k].trig;
                     tgs[i][j].weight = tgs[i][k].weight;
                     tgs[i][j].amp = tgs[i][k].amp;
@@ -1871,9 +1875,9 @@ void SortTriggers0(TRIG** tgp, TRIG** tgs, double*** array1, double*** array2,
         for (j = 1; j < n; j++) {
             if (tgp[i][j].trig - tgp[i][j - 1].trig < ptw) {
                 if (tgp[i][j].weighte > tgp[i][j - 1].weighte) {
-                    array1[i][j][0] = tgp[i][j][0].trig;
-                    array1[i][j][1] = tgp[i][j][0].indexi;
-                    array1[i][j][2] = tgp[i][j][0].indexj;
+                    array1[i][j][0] = tgp[i][j].trig;
+                    array1[i][j][1] = tgp[i][j].indexi;
+                    array1[i][j][2] = tgp[i][j].indexj;
                     pamp[i][j] = tgp[i][j].amp;
                     pweight[i][j] = tgp[i][j].weight;
                     array1[i][j - 1][0] = 1.0e8;
@@ -1882,7 +1886,9 @@ void SortTriggers0(TRIG** tgp, TRIG** tgs, double*** array1, double*** array2,
                     pamp[i][j - 1] = 0.0;
                     pweight[i][j - 1] = 0.0;
                 } else {
-                    array1[i][j] = 1.0e8;
+                    array1[i][j][0] = 1.0e8;
+                    array1[i][j][1] = -2;
+                    array1[i][j][2] = -2;
                     pamp[i][j] = 0.0;
                     pweight[i][j] = 0.0;
                 }
@@ -1914,7 +1920,7 @@ void SortTriggers0(TRIG** tgp, TRIG** tgs, double*** array1, double*** array2,
                     sweight[i][j] = 0.0;
                 }
             } else {
-                array2[i][j] = tgs[i][j].trig;
+                array2[i][j][0] = tgs[i][j].trig;
                 array2[i][j][1] = tgs[i][j].indexi;
                 array2[i][j][2] = tgs[i][j].indexj;
                 samp[i][j] = tgs[i][j].amp;
@@ -2030,7 +2036,7 @@ void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
     extern double vp0, vs0, s_vp0, s_vs0;
     extern double nrt, ptw, stw, tpmin0;
     extern int np0, ns0, nps0, npsboth0, Nst, NNps;
-    extern double **ptrig0, **strig0;
+    extern double ***ptrig0, ***strig0;
     extern int *np0_start, *np0_end, *ns0_start, *ns0_end;
     extern STATION* ST;
     extern double** pscounts;
@@ -2088,14 +2094,14 @@ void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
         ptemp = -100;
         puse = 0;
         for (j = np0_start[i]; j < np0_end[i]; j++) {
-            if (ptrig0[i][j] > tp_pre_b && ptrig0[i][j] < tp_pre_e && GCarc < GCarc0) {
-                torg[ps] = ptrig0[i][j] - tp_cal;
+            if (ptrig0[i][j][0] > tp_pre_b && ptrig0[i][j][0] < tp_pre_e && GCarc < GCarc0) {
+                torg[ps] = ptrig0[i][j][0] - tp_cal;
                 stagap[ps] = baz;
                 pcount = pcount + 1;
                 ps = ps + 1;
                 psweig = psweig + weig;
                 puse = 1;
-                ptemp = ptrig0[i][j];
+                ptemp = ptrig0[i][j][0];
                 break;
             }
         }
@@ -2103,8 +2109,8 @@ void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
         // dtps: to remove some false S picks (they may be P picks but wrongly
         // identified as S picks, it happens!)
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
-            if ((ts_pre - tp_pre) > dtps && (strig0[i][j] - ptemp) > dtps && strig0[i][j] > ts_pre_b && strig0[i][j] < ts_pre_e && GCarc < GCarc0) {
-                torg[ps] = strig0[i][j] - ts_cal;
+            if ((ts_pre - tp_pre) > dtps && (strig0[i][j][0] - ptemp) > dtps && strig0[i][j][0] > ts_pre_b && strig0[i][j][0] < ts_pre_e && GCarc < GCarc0) {
+                torg[ps] = strig0[i][j][0] - ts_cal;
                 stagap[ps] = baz;
                 scount = scount + 1;
                 ps = ps + 1;
@@ -2191,7 +2197,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     extern double trx, tdx, tdh, dtps;
     extern double GCarc0, std0;
     double *torg, *stagap, gap0, gaptemp, gap, *sused;
-    int puse, psboth, flag1, ll;
+    int puse, psboth, flag1, ll, usize;
     double psweig, weig, degg;
 
     pcount = 0;
@@ -2247,8 +2253,13 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         puse = 0;
 
         usize = np0_end[i] - np0_start[i];
-
+	if (usize<1){
+            usize=1;
+        }
         sused = (double*)malloc(usize * sizeof(double));
+        for (j = 0; j < usize; j++) {
+            sused[j] = -3;
+        }
         ll=0;
         for (j = np0_start[i]; j < np0_end[i]; j++) {
             if (ptrig0[i][j][0] > tp_pre_b && ptrig0[i][j][0] < tp_pre_e && GCarc < GCarc0) {
@@ -2272,8 +2283,9 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             for (ll = 0; ll < usize; ll++){
                 if (strig0[i][j][2]==sused[ll]){
                     flag1 = 1;
+                }
             }
-            free(sused)
+            free(sused);
             if (flag1==1 || strig0[i][j][2]==-1){
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][j][0] - ptemp) > dtps && strig0[i][j][0] > ts_pre_b && strig0[i][j][0] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][j][0] - ts_cal;
@@ -2289,7 +2301,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             }
         }
     }
-    free(sused)
+    free(sused);
     // psweig will potentially remove those false associated events with stations
     // mostly from large distances
     if (pcount >= np0 && scount >= ns0 && ps >= nps0 && psboth >= npsboth0 && (ps > rnps * nps0 || (ps <= rnps * nps0 && psweig >= rweig * ps))) {
