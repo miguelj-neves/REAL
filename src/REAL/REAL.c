@@ -586,7 +586,7 @@ int main(int argc, char** argv)
                 pscounts[k][l] = 0.0;
             }
         }
-
+        printf("Before layers\n")
         // homo model
         if (igrid == 0) {
 #pragma omp parallel for shared(pscounts)                                    \
@@ -635,7 +635,7 @@ int main(int argc, char** argv)
             fclose(fpr);
             exit(-1);
         }
-
+        printf("Sort counts\n")
         // sort pscounts
         Sortpscounts(pscounts, nnn);
 
