@@ -376,10 +376,10 @@ int main(int argc, char** argv)
                     == EOF)
                     test = 1;
                 TGS[i][j].weighte = TGP[i][j].weighte;
-                if (TGP[i][j].trig > MAXTIME || TGP[i][j].weight == 0)
+                if (TGP[i][j].trig > MAXTIME || TGP[i][j].trig < -1e-8)
                     TGP[i][j].trig = 1.0e8;
                     TGS[i][j].indexj = -1;
-                if (TGS[i][j].trig > MAXTIME || TGS[i][j].weight == 0)
+                if (TGS[i][j].trig > MAXTIME || TGS[i][j].trig < -1e-8)
                     TGS[i][j].trig = 1.0e8;
                 if (test == 1)
                     break;
@@ -638,7 +638,7 @@ int main(int argc, char** argv)
         printf("Sort counts\n");
         // sort pscounts
         Sortpscounts(pscounts, nnn);
-        
+
         fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
         if (pscounts[nnn - 1][4] >= np0 && pscounts[nnn - 1][5] >= ns0 && pscounts[nnn - 1][7] >= nps0 && pscounts[nnn - 1][6] <= std0 && pscounts[nnn - 1][8] <= GAPTH && pscounts[nnn - 1][9] >= npsboth0 && (pscounts[nnn - 1][7] > rnps * nps0 || ((pscounts[nnn - 1][7] <= rnps * nps0) && pscounts[nnn - 1][10] >= rweig * pscounts[nnn - 1][7]))) {
             printf("Inside location\n");
