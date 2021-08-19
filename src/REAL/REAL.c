@@ -1827,7 +1827,13 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     // sorting both p and s phases by p time.
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
-            temp_indexp[i][j] = (double)j;
+            if (tgb[i][j].weightp==0.) {
+                temp_indexp[i][j]=-2.;
+                tgb[i][j].trigp=1.0e8
+            }
+            else{
+                temp_indexp[i][j] = (double)j;
+            }
             for (k = (j + 1); k < n; ++k) {
                 if (tgb[i][j].trigp > tgb[i][k].trigp) {
                     a = tgb[i][j].trigp;
@@ -1891,8 +1897,9 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
     // Sort P and S phases by S time but keep starting index saved
     for (i = 0; i < m; ++i) {
         for (j = 0; j < n; ++j) {
-            if (tgb[i][j].trigp<0) {
-                temp_index[i][j]=-1.;
+            if (tgb[i][j].weights==0.) {
+                temp_index[i][j]=-2.;
+                tgb[i][j].trigs=1.0e8
             }
             else {
                 temp_index[i][j] = (double)j;
@@ -1916,7 +1923,7 @@ void SortTriggers0(TRIGB** tgb, double*** array1, double*** array2,
                     bs = tgb[i][j].weights;
                     cs = tgb[i][j].amps;
                     temp_index[i][j] = (double)k;
-                    if (tgb[i][k].trigp<0) {
+                    if (tgb[i][k].weightp==0.) {
                         temp_index[i][j]=-1.;
                     }
                     //ds = tgb[i][j].weighte;
