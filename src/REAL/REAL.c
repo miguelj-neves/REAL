@@ -2206,7 +2206,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
     int puse, psboth, flag1, ll, usize;
     double psweig, weig, degg;
 
-    free(sused);
+
     pcount = 0;
     scount = 0;
     ps = 0;
