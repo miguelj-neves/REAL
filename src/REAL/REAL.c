@@ -641,7 +641,12 @@ int main(int argc, char** argv)
         unnn = 0;
         for (k = 0; k < nnn; k++) {
             printf("k: %d\n",k);
-            if (pscounts[k][3] == -1.0e8) {
+            if (k == n-1) {
+                if (pscounts[k][3] == -1.0e8) {
+                    rnnn++;
+                }
+            }
+            else if (pscounts[k][3] == -1.0e8) {
                 pscounts[k][3] = pscounts[k+1][3];
                 pscounts[k+1][3] = -1.0e8;
                 pscounts[k][0] = pscounts[k+1][0];
