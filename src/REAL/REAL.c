@@ -642,7 +642,7 @@ int main(int argc, char** argv)
         printf("nnn: %d\n",nnn);
         for (k = 0; k < nnn; k++) {
             printf("k: %d, %d, %lf\n",k,nnn,pscounts[k][3]);
-            if (k == n-1) {
+            if (k == nnn-1) {
                 if (pscounts[k][3] <= -0.9e-8) {
                     rnnn++;
                 }
