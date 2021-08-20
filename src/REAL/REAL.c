@@ -643,11 +643,11 @@ int main(int argc, char** argv)
         for (k = 0; k < nnn; k++) {
             printf("k: %d, %d, %lf\n",k,nnn,pscounts[k][3]);
             if (k == n-1) {
-                if (pscounts[k][3] <= -1.0e8) {
+                if (pscounts[k][3] <= -0.9e-8) {
                     rnnn++;
                 }
             }
-            if ((pscounts[k][3] <= -1.0e8) && (k<n-1)) {
+            if ((pscounts[k][3] <= -0.9e-8) && (k<n-1)) {
                 pscounts[k][3] = pscounts[k+1][3];
                 pscounts[k+1][3] = -1.0e8;
                 pscounts[k][0] = pscounts[k+1][0];
