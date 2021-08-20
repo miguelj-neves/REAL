@@ -643,15 +643,15 @@ int main(int argc, char** argv)
         for (k = 0; k < nnn; k++) {
             printf("k: %d, %d, %lf\n",k,nnn,pscounts[k][3]);
             if (k == nnn-1) {
-                if (pscounts[k][3] == -1e-8) {
+                if (pscounts[k][3] == -100000000.000000) {
                     rnnn++;
                 }
             }
-            else if (pscounts[k][3] == -1e-8) {
+            else if (pscounts[k][3] == -100000000.000000) {
                 printf("Found one\n");
                 rnnn++;
                 for (j=k+1; j < nnn; j++){
-                    if (pscounts[j][3] == -1e-8){
+                    if (pscounts[k][3] == -100000000.000000){
                         rnnn++;
                         k = j;
                     }
