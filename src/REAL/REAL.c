@@ -546,6 +546,7 @@ int main(int argc, char** argv)
 
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
+        print("Begin cycle")
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
         if (fabs(tpmin0 - 1.0e8) < 1)
@@ -637,6 +638,7 @@ int main(int argc, char** argv)
         }
         printf("Sort counts\n");
         // sort pscounts
+
         Sortpscounts(pscounts, nnn);
 
         //fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
@@ -1964,12 +1966,11 @@ void DeleteOne(double*** array, int Nst0, int Nps0, int Nloc)
 
 void Sortpscounts(double** pscounts0, int np)
 {
-    //int i, j, k;
-    //double a, b, c, d, e, f, g, h, p, q, r;
-pragma omp parallel for shared(pscounts)
-  private(a, b, c, d, e, f, g, h, p, q, r, i, j, k)
-    for ((int)i = 0; i < np; i++) {
-        for ((int)j = (i + 1); j < np; j++) {
+    int i, j, k;
+    double a, b, c, d, e, f, g, h, p, q, r;
+
+    for (i = 0; i < np; i++) {
+        for (j = (i + 1); j < np; j++) {
             if (pscounts0[i][7] > pscounts0[j][7] || (pscounts0[i][7] == pscounts0[j][7] && pscounts0[i][6] < pscounts0[j][6])) {
 
                 a = pscounts0[i][0];
@@ -2002,7 +2003,6 @@ pragma omp parallel for shared(pscounts)
             }
         }
     }
-#pragma omp barrier
 }
 
 void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
