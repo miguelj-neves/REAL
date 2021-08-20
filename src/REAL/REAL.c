@@ -647,7 +647,7 @@ int main(int argc, char** argv)
                     rnnn++;
                 }
             }
-            else if (pscounts[k][3] == -1.0e8) {
+            if ((pscounts[k][3] == -1.0e8) && (k<n-1)) {
                 pscounts[k][3] = pscounts[k+1][3];
                 pscounts[k+1][3] = -1.0e8;
                 pscounts[k][0] = pscounts[k+1][0];
