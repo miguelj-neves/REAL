@@ -643,24 +643,32 @@ int main(int argc, char** argv)
         for (k = 0; k < nnn; k++) {
             printf("k: %d, %d, %lf\n",k,nnn,pscounts[k][3]);
             if (k == nnn-1) {
-                if (pscounts[k][3] <= -0.9e-8) {
+                if (pscounts[k][3] == -1e-8) {
                     rnnn++;
                 }
             }
-            if ((pscounts[k][3] <= -0.9e-8) && (k<n-1)) {
-                pscounts[k][3] = pscounts[k+1][3];
-                pscounts[k+1][3] = -1.0e8;
-                pscounts[k][0] = pscounts[k+1][0];
-                pscounts[k][1] = pscounts[k+1][1];
-                pscounts[k][2] = pscounts[k+1][2];
-                pscounts[k][4] = pscounts[k+1][4];
-                pscounts[k][5] = pscounts[k+1][5];
-                pscounts[k][6] = pscounts[k+1][6];
-                pscounts[k][7] = pscounts[k+1][7];
-                pscounts[k][8] = pscounts[k+1][8];
-                pscounts[k][9] = pscounts[k+1][9];
-                pscounts[k][10] = pscounts[k+1][10];
+            else if (pscounts[k][3] == -1e-8)) {
                 rnnn++;
+                for (j=k+1; j < nnn; j++){
+                    if (pscounts[j][3] == -1e-8){
+                        rnnn++;
+                        k = j;
+                    }
+                    else {
+                        pscounts[k][3] = pscounts[j][3];
+                        //pscounts[k+1][3] = -1.0e8;
+                        pscounts[k][0] = pscounts[j][0];
+                        pscounts[k][1] = pscounts[j][1];
+                        pscounts[k][2] = pscounts[j][2];
+                        pscounts[k][4] = pscounts[j][4];
+                        pscounts[k][5] = pscounts[j][5];
+                        pscounts[k][6] = pscounts[j][6];
+                        pscounts[k][7] = pscounts[j][7];
+                        pscounts[k][8] = pscounts[j][8];
+                        pscounts[k][9] = pscounts[j][9];
+                        pscounts[k][10] = pscounts[j][10];
+                    }
+                }
             }
         }
 
