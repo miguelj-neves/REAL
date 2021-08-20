@@ -638,6 +638,7 @@ int main(int argc, char** argv)
         }
         printf("Sort counts\n");
         rnnn = 0;
+        unnn = 0;
         for (k = 0; k < nnn; k++) {
             printf("%d\n",k);
             if (pscounts[k][3] == -1.0e8) {
