@@ -640,7 +640,6 @@ int main(int argc, char** argv)
         rnnn = 0;
         unnn = 0;
         for (k = 0; k < nnn; k++) {
-            printf("%d\n",k);
             if (pscounts[k][3] == -1.0e8) {
                 pscounts[k][3] = pscounts[k+1][3];
                 pscounts[k+1][3] = -1.0e8;
@@ -660,7 +659,7 @@ int main(int argc, char** argv)
 
         // sort pscounts
         unnn = nnn-rnnn;
-        printf("Sort counts: %d\n",unnn);
+        printf("Sort counts: %d; %d\n",unnn, nnn);
         Sortpscounts(pscounts, unnn);
 
         //fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
