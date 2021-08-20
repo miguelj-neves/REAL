@@ -246,7 +246,7 @@ int main(int argc, char** argv)
     extern double rsel;
     double dxmin, nxd;
     nProcessors=omp_get_max_threads();
-    omp_set_num_threads(nProcessors);
+    omp_set_num_threads(4);
     printf("omp_get_num_threads(): %d\n",omp_get_num_threads());
 
     // initiating parameters
