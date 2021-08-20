@@ -546,7 +546,7 @@ int main(int argc, char** argv)
 
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
-        printf("Begin cycle");
+        printf("Begin cycle\n");
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
         if (fabs(tpmin0 - 1.0e8) < 1)
@@ -1968,7 +1968,7 @@ void Sortpscounts(double** pscounts0, int np)
 {
     int i, j, k;
     double a, b, c, d, e, f, g, h, p, q, r;
-
+#pragma omp parallel for shared(pscounts)
     for (i = 0; i < np; i++) {
         for (j = (i + 1); j < np; j++) {
             if (pscounts0[i][7] > pscounts0[j][7] || (pscounts0[i][7] == pscounts0[j][7] && pscounts0[i][6] < pscounts0[j][6])) {
@@ -2003,6 +2003,7 @@ void Sortpscounts(double** pscounts0, int np)
             }
         }
     }
+#pragma omp barrier
 }
 
 void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
