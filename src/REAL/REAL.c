@@ -666,7 +666,7 @@ int main(int argc, char** argv)
 
         // sort pscounts
         unnn = nnn-rnnn;
-        printf("Sort counts: %d; %d\n",unnn, nnn);
+        printf("Sort counts: %d; %d; %d\n",unnn, nnn, rnnn);
         Sortpscounts(pscounts, unnn);
 
         //fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
