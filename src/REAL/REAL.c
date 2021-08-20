@@ -1968,7 +1968,7 @@ void Sortpscounts(double** pscounts0, int np)
 {
     int i, j, k;
     double a, b, c, d, e, f, g, h, p, q, r;
-#pragma omp parallel for shared(pscounts) private(i,j,k,a, b, c, d, e, f, g, h, p, q, r)
+//#pragma omp parallel for shared(pscounts) private(i,j,k,a, b, c, d, e, f, g, h, p, q, r)
     for (i = 0; i < np; i++) {
         for (j = (i + 1); j < np; j++) {
             if (pscounts0[i][7] > pscounts0[j][7] || (pscounts0[i][7] == pscounts0[j][7] && pscounts0[i][6] < pscounts0[j][6])) {
@@ -2003,7 +2003,7 @@ void Sortpscounts(double** pscounts0, int np)
             }
         }
     }
-#pragma omp barrier
+//#pragma omp barrier
 }
 
 void Accounttriggers_homo(double lat0, double lon0, double dep, double latref,
