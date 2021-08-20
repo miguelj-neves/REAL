@@ -44,6 +44,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <omp.h>
 
 #define PI M_PI
 #define PHASESEL "phase_sel.txt"
