@@ -371,7 +371,7 @@ int main(int argc, char** argv)
         } else {
             test = 0;
             for (j = 0; j < Nps; j++) {
-                if (fscanf(fp, "%lf %lf %lf %lf %lf", &TGP[i][j].trig, &TGP[i][j].weight,
+                if (fscanf(fp, "%lf %lf %lf %lf %d", &TGP[i][j].trig, &TGP[i][j].weight,
                         &TGP[i][j].amp, &TGP[i][j].weighte, TGP[i][j].indexj)
                     == EOF)
                     test = 1;
@@ -391,7 +391,7 @@ int main(int argc, char** argv)
         } else {
             test = 0;
             for (j = 0; j < Nps; j++) {
-                if (fscanf(fp, "%lf %lf %lf %lf %lf", &TGS[i][j].trig, &TGS[i][j].weight,
+                if (fscanf(fp, "%lf %lf %lf %lf %d", &TGS[i][j].trig, &TGS[i][j].weight,
                         &TGS[i][j].amp, &TGS[i][j].weighte, TGS[i][j].indexj)
                     == EOF)
                     test = 1;
