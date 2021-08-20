@@ -184,6 +184,7 @@ double cauchyrnd(double, long int*);
 double uniform(double, double, long int*);
 
 // global
+int nProcessors=omp_get_max_threads();
 double tint;
 double** pscounts;
 STATION* ST;
@@ -244,6 +245,9 @@ int main(int argc, char** argv)
     double psweig, weig, degg;
     extern double rsel;
     double dxmin, nxd;
+
+    omp_set_num_threads(nProcessors);
+    printf("omp_get_num_threads(): %d\n",omp_get_num_threads());
 
     // initiating parameters
     error = 0;
