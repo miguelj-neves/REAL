@@ -432,7 +432,7 @@ int main(int argc, char** argv)
         if (ST[i].stlo < stlomin)
             stlomin = ST[i].stlo;
     }
-    printf(stderr, "Coords\n");
+    printf("Coords\n");
     ddistaz(stlamin, stlomin, stlamax, stlomax, &distmax, &baz);
     if (distmax < GCarc0)
         GCarc0 = distmax;
