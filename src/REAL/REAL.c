@@ -587,7 +587,7 @@ int main(int argc, char** argv)
                 pscounts[k][l] = 0.0;
             }
         }
-        printf("Before layers\n");
+        //printf("Before layers\n");
         // homo model
         if (igrid == 0) {
 #pragma omp parallel for shared(pscounts)                                    \
@@ -636,11 +636,11 @@ int main(int argc, char** argv)
             fclose(fpr);
             exit(-1);
         }
-        printf("Sort counts\n");
+        //printf("Sort counts\n");
         // sort pscounts
         Sortpscounts(pscounts, nnn);
 
-        fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
+        //fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
         if (pscounts[nnn - 1][4] >= np0 && pscounts[nnn - 1][5] >= ns0 && pscounts[nnn - 1][7] >= nps0 && pscounts[nnn - 1][6] <= std0 && pscounts[nnn - 1][8] <= GAPTH && pscounts[nnn - 1][9] >= npsboth0 && (pscounts[nnn - 1][7] > rnps * nps0 || ((pscounts[nnn - 1][7] <= rnps * nps0) && pscounts[nnn - 1][10] >= rweig * pscounts[nnn - 1][7]))) {
             printf("Inside location\n");
             told = pscounts[nnn - 1][3];
@@ -2295,7 +2295,6 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
             if (flag1==1 || strig0[i][j][2]==-1){
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][j][0] - ptemp) > dtps && strig0[i][j][0] > ts_pre_b && strig0[i][j][0] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][j][0] - ts_cal;
-                    printf("torg: %lf, strig0: %lf, ts_cal: %lf\n", torg[ps], strig0[i][j][0], ts_cal);
                     stagap[ps] = baz;
                     scount = scount + 1;
                     ps = ps + 1;
