@@ -641,7 +641,7 @@ int main(int argc, char** argv)
         unnn = 0;
         printf("nnn: %d\n",nnn);
         for (k = 0; k < nnn; k++) {
-            printf("k: %d, %d\n",k,nnn);
+            printf("k: %d, %d, %lf\n",k,nnn,pscounts[k][3]);
             if (k == n-1) {
                 if (pscounts[k][3] == -1.0e8) {
                     rnnn++;
