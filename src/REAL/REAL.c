@@ -432,11 +432,11 @@ int main(int argc, char** argv)
         if (ST[i].stlo < stlomin)
             stlomin = ST[i].stlo;
     }
-
+    printf(stderr, "Coords\n");
     ddistaz(stlamin, stlomin, stlamax, stlomax, &distmax, &baz);
     if (distmax < GCarc0)
         GCarc0 = distmax;
-
+    fprintf(stderr, "Distance\n");
     /* read travel time table */
     if (igrid == 1) {
         strcpy(input, argv[8]);
