@@ -366,7 +366,7 @@ int main(int argc, char** argv)
         istaremove = 0;
         sprintf(input, "%s/%s.%s.P.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
-            // fprintf(stderr, "Can not open file in ReadFile %s\n", input);
+            fprintf(stderr, "Can not open file in ReadFile %s\n", input);
             istaremove++;
         } else {
             test = 0;
@@ -386,7 +386,7 @@ int main(int argc, char** argv)
 
         sprintf(input, "%s/%s.%s.S.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
-            // fprintf(stderr, "Can not open file in ReadFile %s\n", input);
+            fprintf(stderr, "Can not open file in ReadFile %s\n", input);
             istaremove++;
         } else {
             test = 0;
@@ -582,7 +582,7 @@ int main(int argc, char** argv)
                 pscounts[k][l] = 0.0;
             }
         }
-        //printf("Before layers\n");
+        printf("Before layers\n");
         // homo model
         if (igrid == 0) {
 #pragma omp parallel for shared(pscounts)                                    \
