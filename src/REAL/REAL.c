@@ -410,6 +410,7 @@ int main(int argc, char** argv)
                 ST[j] = ST[j + 1];
             }
             i = i - 1;
+            printf("Remove\n");
         }
     }
 
@@ -417,7 +418,7 @@ int main(int argc, char** argv)
         for (i = 0; i < Nst; i++)
             ST[i].elev = 0.0;
     }
-
+    printf("Elev\n");
     stlamin = 1.0e8;
     stlomin = 1.0e8;
     stlamax = -1.0e8;
