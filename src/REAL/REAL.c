@@ -652,7 +652,7 @@ int main(int argc, char** argv)
                 pscounts[k][8] = pscounts[k+1][8];
                 pscounts[k][9] = pscounts[k+1][9];
                 pscounts[k][10] = pscounts[k+1][10];
-                rnnn++
+                rnnn++;
             }
         }
 
