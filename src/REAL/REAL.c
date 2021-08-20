@@ -647,7 +647,7 @@ int main(int argc, char** argv)
                     rnnn++;
                 }
             }
-            else if (pscounts[k][3] == -1e-8)) {
+            else if (pscounts[k][3] == -1e-8) {
                 rnnn++;
                 for (j=k+1; j < nnn; j++){
                     if (pscounts[j][3] == -1e-8){
