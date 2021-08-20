@@ -615,8 +615,8 @@ int main(int argc, char** argv)
         dx2, dh) private(lat0, lon0, dep, l, i, j, k)
 
             for (l = 0; l < nnn; ++l) {
-                nProcessors=omp_get_max_threads();
-                printf("omp_get_num_threads(): %d\n",omp_get_num_threads());
+                //nProcessors=omp_get_max_threads();
+                //printf("omp_get_num_threads(): %d\n",omp_get_num_threads());
                 i = (int)(l / (nlon * ndep));
                 j = (int)((l - i * nlon * ndep) / ndep);
                 k = l - i * nlon * ndep - j * ndep;
