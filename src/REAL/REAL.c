@@ -635,7 +635,7 @@ int main(int argc, char** argv)
             fclose(fpr);
             exit(-1);
         }
-        //printf("Sort counts\n");
+        printf("Sort counts\n");
         // sort pscounts
         Sortpscounts(pscounts, nnn);
 
@@ -720,7 +720,7 @@ int main(int argc, char** argv)
             DeleteOne(ptrig, m, Nps, n);
         }
     }
-
+    printf("Reselect\n");
     /*Reselect to keep the most reliable event within a time window*/
     nselect = ReselectFinal(RELC, mmm);
     fprintf(stderr,"before first selection: %d\n",mmm);
