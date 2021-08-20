@@ -613,9 +613,10 @@ int main(int argc, char** argv)
 #pragma omp parallel for shared(pscounts)                                    \
     firstprivate(latref, lonref, latref0, lonref0, elevref, nlon, ndep, dx1, \
         dx2, dh) private(lat0, lon0, dep, l, i, j, k)
-            nProcessors=omp_get_max_threads();
-            printf("omp_get_num_threads(): %d\n",omp_get_num_threads());
+
             for (l = 0; l < nnn; ++l) {
+                nProcessors=omp_get_max_threads();
+                printf("omp_get_num_threads(): %d\n",omp_get_num_threads());
                 i = (int)(l / (nlon * ndep));
                 j = (int)((l - i * nlon * ndep) / ndep);
                 k = l - i * nlon * ndep - j * ndep;
