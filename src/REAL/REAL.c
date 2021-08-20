@@ -546,7 +546,7 @@ int main(int argc, char** argv)
 
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
-        print("Begin cycle");
+        printf("Begin cycle");
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
         if (fabs(tpmin0 - 1.0e8) < 1)
