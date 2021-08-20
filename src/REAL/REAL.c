@@ -639,7 +639,7 @@ int main(int argc, char** argv)
         printf("Sort counts\n");
         rnnn = 0;
         for (k = 0; k < nnn; k++) {
-            printf("%d\n",k)
+            printf("%d\n",k);
             if (pscounts[k][3] == -1.0e8) {
                 pscounts[k][3] = pscounts[k+1][3];
                 pscounts[k+1][3] = -1.0e8;
