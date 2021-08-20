@@ -410,7 +410,6 @@ int main(int argc, char** argv)
                 ST[j] = ST[j + 1];
             }
             i = i - 1;
-            printf("Remove\n");
         }
     }
 
@@ -418,7 +417,7 @@ int main(int argc, char** argv)
         for (i = 0; i < Nst; i++)
             ST[i].elev = 0.0;
     }
-    printf("Elev\n");
+
     stlamin = 1.0e8;
     stlomin = 1.0e8;
     stlamax = -1.0e8;
@@ -433,11 +432,11 @@ int main(int argc, char** argv)
         if (ST[i].stlo < stlomin)
             stlomin = ST[i].stlo;
     }
-    printf("Coords\n");
+
     ddistaz(stlamin, stlomin, stlamax, stlomax, &distmax, &baz);
     if (distmax < GCarc0)
         GCarc0 = distmax;
-    fprintf(stderr, "Distance\n");
+
     /* read travel time table */
     if (igrid == 1) {
         strcpy(input, argv[8]);
@@ -544,7 +543,7 @@ int main(int argc, char** argv)
     if (latref0 < -999 && lonref0 < -999)
         inoref = 1;
     Maxt0 = Find_max(ptrig, Nst, Nps);
-    printf("Found max: %lf\n", Maxt0);
+
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
         Nps = DetermineNp(ptrig, Nst, Nps);
@@ -584,7 +583,7 @@ int main(int argc, char** argv)
                 pscounts[k][l] = 0.0;
             }
         }
-        printf("Before layers\n");
+
         // homo model
         if (igrid == 0) {
 #pragma omp parallel for shared(pscounts)                                    \
@@ -610,7 +609,7 @@ int main(int argc, char** argv)
 
             for (l = 0; l < nnn; ++l) {
                 //nProcessors=omp_get_max_threads();
-                printf("omp_get_num_threads: %d\n",omp_get_num_threads());
+                //printf("omp_get_num_threads: %d\n",omp_get_num_threads());
                 i = (int)(l / (nlon * ndep));
                 j = (int)((l - i * nlon * ndep) / ndep);
                 k = l - i * nlon * ndep - j * ndep;
