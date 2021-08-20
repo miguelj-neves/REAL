@@ -640,6 +640,7 @@ int main(int argc, char** argv)
         rnnn = 0;
         unnn = 0;
         for (k = 0; k < nnn; k++) {
+            printf("k: %d\n",k);
             if (pscounts[k][3] == -1.0e8) {
                 pscounts[k][3] = pscounts[k+1][3];
                 pscounts[k+1][3] = -1.0e8;
