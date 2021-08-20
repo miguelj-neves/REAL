@@ -225,7 +225,7 @@ int main(int argc, char** argv)
     int i, j, k, l, m, n, nk;
     FILE *fp, *fpr, *fp1, *fp2, *fp3, *fp4;
     char dir[256], input[256];
-    int test, error, pcount, scount, psboth, puse, nnn, ps, nselect;
+    int test, error, pcount, scount, psboth, puse, nnn, ps, nselect, rnnn, unnn;
     double dx, dh, rx, rh, dx1, dx2, rx1, rx2;
     double tp_cal, ts_cal, tp_pre, ts_pre, tp_pre_b, ts_pre_b, tp_pre_e, ts_pre_e;
     double GCarc, rdist, baz, distmax;
@@ -637,18 +637,37 @@ int main(int argc, char** argv)
             exit(-1);
         }
         printf("Sort counts\n");
-        // sort pscounts
+        rnnn = 0;
+        for (k = 0; k < nnn; k++) {
+            if (pscounts[k][3] == -1.0e8) {
+                pscounts[k][3] = pscounts[k+1][3];
+                pscounts[k+1][3] = -1.0e8;
+                pscounts[k][0] = pscounts[k+1][0];
+                pscounts[k][1] = pscounts[k+1][1];
+                pscounts[k][2] = pscounts[k+1][2];
+                pscounts[k][4] = pscounts[k+1][4];
+                pscounts[k][5] = pscounts[k+1][5];
+                pscounts[k][6] = pscounts[k+1][6];
+                pscounts[k][7] = pscounts[k+1][7];
+                pscounts[k][8] = pscounts[k+1][8];
+                pscounts[k][9] = pscounts[k+1][9];
+                pscounts[k][10] = pscounts[k+1][10];
+                rnnn++
+            }
+        }
 
-        Sortpscounts(pscounts, nnn);
+        // sort pscounts
+        unnn = nnn-rnnn;
+        Sortpscounts(pscounts, unnn);
 
         //fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
-        if (pscounts[nnn - 1][4] >= np0 && pscounts[nnn - 1][5] >= ns0 && pscounts[nnn - 1][7] >= nps0 && pscounts[nnn - 1][6] <= std0 && pscounts[nnn - 1][8] <= GAPTH && pscounts[nnn - 1][9] >= npsboth0 && (pscounts[nnn - 1][7] > rnps * nps0 || ((pscounts[nnn - 1][7] <= rnps * nps0) && pscounts[nnn - 1][10] >= rweig * pscounts[nnn - 1][7]))) {
+        if (pscounts[unnn - 1][4] >= np0 && pscounts[unnn - 1][5] >= ns0 && pscounts[unnn - 1][7] >= nps0 && pscounts[unnn - 1][6] <= std0 && pscounts[unnn - 1][8] <= GAPTH && pscounts[unnn - 1][9] >= npsboth0 && (pscounts[unnn - 1][7] > rnps * nps0 || ((pscounts[unnn - 1][7] <= rnps * nps0) && pscounts[unnn - 1][10] >= rweig * pscounts[unnn - 1][7]))) {
             printf("Inside location\n");
-            told = pscounts[nnn - 1][3];
-            ttd = (int)(pscounts[nnn - 1][3] / 86400);
-            tth = (int)((pscounts[nnn - 1][3] - ttd * 86400) / 3600);
-            tts = (int)((pscounts[nnn - 1][3] - ttd * 86400 - tth * 3600) / 60);
-            ttm = pscounts[nnn - 1][3] - ttd * 86400 - tth * 3600 - tts * 60;
+            told = pscounts[unnn - 1][3];
+            ttd = (int)(pscounts[unnn - 1][3] / 86400);
+            tth = (int)((pscounts[unnn - 1][3] - ttd * 86400) / 3600);
+            tts = (int)((pscounts[unnn - 1][3] - ttd * 86400 - tth * 3600) / 60);
+            ttm = pscounts[unnn - 1][3] - ttd * 86400 - tth * 3600 - tts * 60;
             sprintf(otime, "%04d %02d %02d %02d:%02d:%06.3f", nyear, nmon, ttd + nday,
                 tth, tts, ttm);
 
@@ -668,19 +687,19 @@ int main(int argc, char** argv)
             fprintf(stderr,
                 "%5d %25s %12.3lf %7.4lf %7.4lf %8.4lf %6.2lf %3d %3d %3d %3d "
                 "%6.2f\n",
-                mmm + 1, otime, pscounts[nnn - 1][3], pscounts[nnn - 1][6],
-                pscounts[nnn - 1][0], pscounts[nnn - 1][1], pscounts[nnn - 1][2],
-                (int)(pscounts[nnn - 1][4]), (int)(pscounts[nnn - 1][5]),
-                (int)(pscounts[nnn - 1][7]), (int)(pscounts[nnn - 1][9]),
-                pscounts[nnn - 1][8]);
+                mmm + 1, otime, pscounts[unnn - 1][3], pscounts[unnn - 1][6],
+                pscounts[unnn - 1][0], pscounts[unnn - 1][1], pscounts[unnn - 1][2],
+                (int)(pscounts[unnn - 1][4]), (int)(pscounts[unnn - 1][5]),
+                (int)(pscounts[unnn - 1][7]), (int)(pscounts[unnn - 1][9]),
+                pscounts[unnn - 1][8]);
             mmm++;
 
             iremove = 0;
             if (drt > 1.0e-5) {
                 for (k = 0; k < Nst; k++) {
-                    lat0 = pscounts[nnn - 1][0];
-                    lon0 = pscounts[nnn - 1][1];
-                    dep = pscounts[nnn - 1][2];
+                    lat0 = pscounts[unnn - 1][0];
+                    lon0 = pscounts[unnn - 1][1];
+                    dep = pscounts[unnn - 1][2];
 
                     ddistaz(ST[k].stla, ST[k].stlo, lat0, lon0, &GCarc, &baz);
                     if (igrid == 0) {
@@ -691,7 +710,7 @@ int main(int argc, char** argv)
                         tp_cal = TB[ig].ptime + (GCarc - TB[ig].gdist) * TB[ig].prayp + (dep - TB[ig].dep) * TB[ig].phslow + ST[k].elev / s_vp0;
                     }
 
-                    tp_pre = pscounts[nnn - 1][3] + tp_cal;
+                    tp_pre = pscounts[unnn - 1][3] + tp_cal;
                     // use 0 or small drt, you will check more initiating P picks
                     // use a large drt, you have risk to miss picks or result in wrong association
                     // but it can significantly reduce the time
