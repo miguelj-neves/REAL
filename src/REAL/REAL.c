@@ -371,7 +371,7 @@ int main(int argc, char** argv)
         } else {
             test = 0;
             for (j = 0; j < Nps; j++) {
-                if (fscanf(fp, "%lf %lf %lf", &TGP[i][j].trig, &TGP[i][j].weight,
+                if (fscanf(fp, "%lf %lf %lf %lf %lf %lf %lf", &TGP[i][j].trig, &TGP[i][j].weight,
                         &TGP[i][j].amp, &TGS[i][j].trig, &TGS[i][j].weight, &TGS[i][j].amp, &TGP[i][j].weighte)
                     == EOF)
                     test = 1;
@@ -2292,7 +2292,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                 }
             }
 
-            //if (flag1==1 || strig0[i][j][2]==-1){
+            if (flag1==1 || strig0[i][j][2]==-1){
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][j][0] - ptemp) > dtps && strig0[i][j][0] > ts_pre_b && strig0[i][j][0] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][j][0] - ts_cal;
                     printf("torg: %lf, strig0: %lf, ts_cal: %lf\n", torg[ps], strig0[i][j][0], ts_cal);
@@ -2305,7 +2305,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                     }
                     break;
                 }
-            //}
+            }
         }
         free(sused);
     }
