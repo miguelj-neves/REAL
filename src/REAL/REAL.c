@@ -449,6 +449,7 @@ int main(int argc, char** argv)
     }
 
     Nps = DetermineNg(TGP, TGS, Nst, Nps);
+    printf("%d\n",Nps);
     NNps = Nps;
 
     dx2 = dx / cos(latcenter * PI / 180.0);
@@ -1742,7 +1743,7 @@ int DetermineNg(TRIG** ar1, TRIG** ar2, int n1, int n2)
     Nps0 = 0;
     for (i = 0; i < n1; i++) {
         for (j = 1; j < n2; j++) {
-            printf("%d\n",j);
+
             if (fabs(ar1[i][j].trig - 1.0e8) < 1 && ar1[i][j - 1].trig <= MAXTIME) {
                 Nps0 = j;
                 break;
@@ -1750,6 +1751,7 @@ int DetermineNg(TRIG** ar1, TRIG** ar2, int n1, int n2)
         }
         if (Nps0 > Nps1) {
             Nps1 = Nps0;
+            printf("%d\n",Nps1);
         }
     }
 
@@ -1762,6 +1764,7 @@ int DetermineNg(TRIG** ar1, TRIG** ar2, int n1, int n2)
         }
         if (Nps0 > Nps1) {
             Nps1 = Nps0;
+            printf("%d\n",Nps1);
         }
     }
     return Nps1 + 1;
