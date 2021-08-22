@@ -545,7 +545,7 @@ int main(int argc, char** argv)
 
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
-        printf("Begin cycle\n");
+        //printf("Begin cycle\n");
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
         if (fabs(tpmin0 - 1.0e8) < 1)
@@ -635,19 +635,19 @@ int main(int argc, char** argv)
             fclose(fpr);
             exit(-1);
         }
-        printf("Sort counts\n");
+        //printf("Sort counts\n");
         rnnn = 0;
         unnn = 0;
-        printf("nnn: %d\n",nnn);
+        //printf("nnn: %d\n",nnn);
         for (k = 0; k < nnn; k++) {
-            printf("k: %d, %d, %lf\n",k,nnn,pscounts[k][3]);
+            //printf("k: %d, %d, %lf\n",k,nnn,pscounts[k][3]);
             if (k == nnn-1) {
                 if (pscounts[k][3] == -100000000.000000) {
                     rnnn++;
                 }
             }
             else if (pscounts[k][3] == -100000000.000000) {
-                printf("Found one\n");
+                //printf("Found one\n");
                 rnnn++;
                 for (j=k+1; j < nnn; j++){
                     if (pscounts[k][3] == -100000000.000000){
@@ -674,7 +674,7 @@ int main(int argc, char** argv)
 
         // sort pscounts
         unnn = nnn-rnnn;
-        printf("Sort counts: %d; %d; %d\n",unnn, nnn, rnnn);
+        //printf("Sort counts: %d; %d; %d\n",unnn, nnn, rnnn);
         if (unnn>0){
         Sortpscounts(pscounts, unnn);
 
