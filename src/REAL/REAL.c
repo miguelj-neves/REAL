@@ -44,7 +44,6 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include <omp.h>
 
 #define PI M_PI
 #define PHASESEL "phase_sel.txt"
@@ -759,6 +758,9 @@ int main(int argc, char** argv)
         } else {
             DeleteOne(ptrig, m, Nps, n);
         }
+      }
+        else {
+            DeleteOne(ptrig, m, Nps, n);
         }
     }
     printf("Reselect\n");
