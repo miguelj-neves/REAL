@@ -367,7 +367,7 @@ int main(int argc, char** argv)
         istaremove = 0;
         sprintf(input, "%s/%s.%s.P.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
-            printf(stderr, "Can not open file in ReadFile\n");
+            printf("Can not open file in ReadFile\n");
             istaremove++;
         } else {
             test = 0;
