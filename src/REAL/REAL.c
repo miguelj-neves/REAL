@@ -546,10 +546,11 @@ int main(int argc, char** argv)
     if (latref0 < -999 && lonref0 < -999)
         inoref = 1;
     Maxt0 = Find_max(ptrig, Nst, Nps);
+    printf("Max found\n");
 
     // search each initiating P pick
     while (Find_min(ptrig, Nst, Nps) < Maxt0) {
-        //printf("Begin cycle\n");
+        printf("Begin cycle\n");
         Nps = DetermineNp(ptrig, Nst, Nps);
         Find_min_loc(ptrig, Nst, 1, &tpmin0, &m, &n);
         if (fabs(tpmin0 - 1.0e8) < 1)
