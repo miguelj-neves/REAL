@@ -1751,7 +1751,7 @@ int DetermineNg(TRIG** ar1, TRIG** ar2, int n1, int n2)
         }
         if (Nps0 > Nps1) {
             Nps1 = Nps0;
-            printf("%d\n",Nps1);
+            //printf("%d\n",Nps1);
         }
     }
 
@@ -1764,9 +1764,10 @@ int DetermineNg(TRIG** ar1, TRIG** ar2, int n1, int n2)
         }
         if (Nps0 > Nps1) {
             Nps1 = Nps0;
-            printf("%d\n",Nps1);
+
         }
     }
+    printf("%d\n",Nps1);
     return Nps1 + 1;
 }
 
