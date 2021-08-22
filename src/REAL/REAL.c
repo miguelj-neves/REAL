@@ -373,12 +373,11 @@ int main(int argc, char** argv)
             test = 0;
             for (j = 0; j < Nps; j++) {
                 if (fscanf(fp, "%lf %lf %lf %lf %lf", &TGP[i][j].trig, &TGP[i][j].weight,
-                        &TGP[i][j].amp, &TGP[i][j].weighte, &TGP[i][j].indexj)
-                    == EOF){
+                        &TGP[i][j].amp, &TGP[i][j].weighte, &TGP[i][j].indexj) == EOF){
                     test = 1;
-                    fprintf(stderr, "%lf %lf %lf %lf %ls\n", TGP[i][j].trig, TGP[i][j].weight,
-                        TGP[i][j].amp, TGP[i][j].weighte, TGP[i][j].indexj);
                     }
+                fprintf(stderr, "%lf %lf %lf %lf %ls\n", TGP[i][j].trig, TGP[i][j].weight,
+                    TGP[i][j].amp, TGP[i][j].weighte, TGP[i][j].indexj);
                 if (TGP[i][j].trig > MAXTIME)
                     TGP[i][j].trig = 1.0e8;
                 if (test == 1)
@@ -395,8 +394,7 @@ int main(int argc, char** argv)
             test = 0;
             for (j = 0; j < Nps; j++) {
                 if (fscanf(fp, "%lf %lf %lf %lf %lf", &TGS[i][j].trig, &TGS[i][j].weight,
-                        &TGS[i][j].amp, &TGS[i][j].weighte, &TGS[i][j].indexj)
-                    == EOF)
+                        &TGS[i][j].amp, &TGS[i][j].weighte, &TGS[i][j].indexj) == EOF)
                     test = 1;
                 if (TGS[i][j].trig > MAXTIME)
                     TGS[i][j].trig = 1.0e8;
