@@ -372,7 +372,7 @@ int main(int argc, char** argv)
         } else {
             test = 0;
             for (j = 0; j < Nps; j++) {
-                if (fscanf(fp, "%lf %lf %lf %lf %lf", &TGP[i][j].trig, &TGP[i][j].weight,
+                if (fscanf(fp, "%lf %lf %lf %lf %lf\n", &TGP[i][j].trig, &TGP[i][j].weight,
                         &TGP[i][j].amp, &TGP[i][j].weighte, &TGP[i][j].indexj) == EOF){
                     test = 1;
                     }
@@ -393,7 +393,7 @@ int main(int argc, char** argv)
         } else {
             test = 0;
             for (j = 0; j < Nps; j++) {
-                if (fscanf(fp, "%lf %lf %lf %lf %lf", &TGS[i][j].trig, &TGS[i][j].weight,
+                if (fscanf(fp, "%lf %lf %lf %lf %lf\n", &TGS[i][j].trig, &TGS[i][j].weight,
                         &TGS[i][j].amp, &TGS[i][j].weighte, &TGS[i][j].indexj) == EOF)
                     test = 1;
                 if (TGS[i][j].trig > MAXTIME)
@@ -2306,14 +2306,14 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
         // dtps: to remove some false S picks (they may be P picks but wrongly
         // identified as S picks, it happens!)
         for (j = ns0_start[i]; j < ns0_end[i]; j++) {
-            //flag1 = 0;
-            //for (ll = 0; ll < usize; ll++){
-            //    if (strig0[i][j][1]==sused[ll]){
-            //        flag1 = 1;
-            //    }
-            //}
+            flag1 = 0;
+            for (ll = 0; ll < usize; ll++){
+                if (strig0[i][j][1]==sused[ll]){
+                    flag1 = 1;
+                }
+            }
 
-            //if (flag1==1 || (strig0[i][j][1]==-1.0)){
+            if (flag1==1 || (strig0[i][j][1]==-1.0)){
                 if ((ts_pre - tp_pre) > dtps && (strig0[i][j][0] - ptemp) > dtps && strig0[i][j][0] > ts_pre_b && strig0[i][j][0] < ts_pre_e && GCarc < GCarc0) {
                     torg[ps] = strig0[i][j][0] - ts_cal;
                     stagap[ps] = baz;
@@ -2325,7 +2325,7 @@ void Accounttriggers_layer(double lat0, double lon0, double dep, double latref,
                     }
                     break;
                 }
-            //}
+            }
         }
         free(sused);
     }
