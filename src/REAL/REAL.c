@@ -206,7 +206,7 @@ double std0, rsel;
 
 int Nst = 560; // maximum number of stations
 int Nps = 20000; // maximum number of P/S picks recorded at one station
-int Ntb = 20000; // maximum number of lines in traveltime table
+int Ntb = 50000; // maximum number of lines in traveltime table
 double SAcoef = 0.99; // used in simulated annealing relocation
 long int SAnum = 1000; // used in simulated annealing relocation
 
