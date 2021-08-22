@@ -641,10 +641,10 @@ int main(int argc, char** argv)
             fclose(fpr);
             exit(-1);
         }
-        //printf("Sort counts\n");
+        printf("Sort counts\n");
         rnnn = 0;
         unnn = 0;
-        //printf("nnn: %d\n",nnn);
+        printf("nnn: %d\n",nnn);
         for (k = 0; k < nnn; k++) {
             //printf("k: %d, %d, %lf\n",k,nnn,pscounts[k][3]);
             if (k == nnn-1) {
