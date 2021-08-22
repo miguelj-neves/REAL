@@ -1742,7 +1742,7 @@ int DetermineNg(TRIG** ar1, TRIG** ar2, int n1, int n2)
     Nps0 = 0;
     for (i = 0; i < n1; i++) {
         for (j = 1; j < n2; j++) {
-            printf("%d\n",j)
+            printf("%d\n",j);
             if (fabs(ar1[i][j].trig - 1.0e8) < 1 && ar1[i][j - 1].trig <= MAXTIME) {
                 Nps0 = j;
                 break;
