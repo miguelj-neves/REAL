@@ -405,7 +405,7 @@ int main(int argc, char** argv)
         }
         // remove the station from station.dat if no any P or S picks recorded at
         // the station
-        if (istaremove == 1) {
+        if (istaremove == 2) {
             Nst = Nst - 1;
             for (j = i; j < Nst; j++) {
                 ST[j] = ST[j + 1];
