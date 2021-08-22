@@ -374,10 +374,11 @@ int main(int argc, char** argv)
             for (j = 0; j < Nps; j++) {
                 if (fscanf(fp, "%lf %lf %lf %lf %d", &TGP[i][j].trig, &TGP[i][j].weight,
                         &TGP[i][j].amp, &TGP[i][j].weighte, &TGP[i][j].indexj)
-                    == EOF)
+                    == EOF){}
                     test = 1;
-                fprintf(stderr, "%lf %lf %lf %lf %d\n", TGP[i][j].trig, TGP[i][j].weight,
+                    fprintf(stderr, "%lf %lf %lf %lf %d\n", TGP[i][j].trig, TGP[i][j].weight,
                         TGP[i][j].amp, TGP[i][j].weighte, TGP[i][j].indexj);
+                    }
                 if (TGP[i][j].trig > MAXTIME)
                     TGP[i][j].trig = 1.0e8;
                 if (test == 1)
