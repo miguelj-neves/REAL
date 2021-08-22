@@ -678,7 +678,7 @@ int main(int argc, char** argv)
         if (unnn>0){
         Sortpscounts(pscounts, unnn);
 
-        //fprintf(stderr, "%d %d %d %d\n", pscounts[nnn - 1][4], pscounts[nnn - 1][5], pscounts[nnn - 1][7], pscounts[nnn - 1][9]);
+        fprintf(stderr, "%d %d %d %d\n", pscounts[unnn - 1][4], pscounts[unnn - 1][5], pscounts[unnn - 1][7], pscounts[unnn - 1][9]);
         if (pscounts[unnn - 1][4] >= np0 && pscounts[unnn - 1][5] >= ns0 && pscounts[unnn - 1][7] >= nps0 && pscounts[unnn - 1][6] <= std0 && pscounts[unnn - 1][8] <= GAPTH && pscounts[unnn - 1][9] >= npsboth0 && (pscounts[unnn - 1][7] > rnps * nps0 || ((pscounts[unnn - 1][7] <= rnps * nps0) && pscounts[unnn - 1][10] >= rweig * pscounts[unnn - 1][7]))) {
             printf("Inside location\n");
             told = pscounts[unnn - 1][3];
