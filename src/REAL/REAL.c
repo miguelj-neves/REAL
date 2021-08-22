@@ -570,7 +570,7 @@ int main(int argc, char** argv)
         tsmax = tpmin0 + (GCarc0 * 111.19 / vs0) + nrt * stw;
 
         Nps2 = DetermineNprange(ptrig, tpmax, Nst, Nps);
-        // printf("%d %lf %lf\n",Nps,told,tpmin0);
+        printf("%d %lf %lf\n",Nps,told,tpmin0);
 
         if (tpmin < 0.0)
             tpmin = 0.0;
@@ -627,6 +627,7 @@ int main(int argc, char** argv)
             }
 #pragma omp barrier
         }
+        printf("After layers\n");
         // only output the resolution file for the first effective event (the first
         // pick should be true)
         if (ires == 1) {
