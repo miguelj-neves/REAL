@@ -367,7 +367,7 @@ int main(int argc, char** argv)
         istaremove = 0;
         sprintf(input, "%s/%s.%s.P.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
-            fprintf(stderr, "Can not open file in ReadFile %s\n", input);
+            //fprintf(stderr, "Can not open file in ReadFile %s\n", input);
             istaremove++;
         } else {
             test = 0;
@@ -376,7 +376,7 @@ int main(int argc, char** argv)
                         &TGP[i][j].amp, &TGP[i][j].weighte, &TGP[i][j].indexj)
                     == EOF)
                     test = 1;
-                fprintf(stderr, "%lf %lf %lf %lf %d", TGP[i][j].trig, TGP[i][j].weight,
+                fprintf(stderr, "%lf %lf %lf %lf %d\n", TGP[i][j].trig, TGP[i][j].weight,
                         TGP[i][j].amp, TGP[i][j].weighte, TGP[i][j].indexj);
                 if (TGP[i][j].trig > MAXTIME)
                     TGP[i][j].trig = 1.0e8;
@@ -388,7 +388,7 @@ int main(int argc, char** argv)
 
         sprintf(input, "%s/%s.%s.S.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
-            fprintf(stderr, "Can not open file in ReadFile %s\n", input);
+            //fprintf(stderr, "Can not open file in ReadFile %s\n", input);
             istaremove++;
         } else {
             test = 0;
