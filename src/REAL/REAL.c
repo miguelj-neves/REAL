@@ -351,10 +351,12 @@ int main(int argc, char** argv)
         for (j = 0; j < Nps; j++) {
             TGP[i][j].trig = 1.0e8;
             TGP[i][j].weight = 0.0;
+            TGP[i][j].weighte = 0.0;
             TGP[i][j].amp = 0.0;
             TGP[i][j].indexj = -2;
             TGS[i][j].trig = 1.0e8;
             TGS[i][j].weight = 0.0;
+            TGS[i][j].weighte = 0.0;
             TGS[i][j].amp = 0.0;
             TGS[i][j].indexj = -2;
         }
