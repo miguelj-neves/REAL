@@ -367,7 +367,7 @@ int main(int argc, char** argv)
         istaremove = 0;
         sprintf(input, "%s/%s.%s.P.txt", dir, ST[i].net, ST[i].sta);
         if ((fp = fopen(input, "r")) == NULL) {
-            printf("Can not open file in ReadFile\n");
+            //printf("Can not open file in ReadFile\n");
             istaremove++;
         } else {
             test = 0;
@@ -1742,6 +1742,7 @@ int DetermineNg(TRIG** ar1, TRIG** ar2, int n1, int n2)
     Nps0 = 0;
     for (i = 0; i < n1; i++) {
         for (j = 1; j < n2; j++) {
+            printf("%d\n",j)
             if (fabs(ar1[i][j].trig - 1.0e8) < 1 && ar1[i][j - 1].trig <= MAXTIME) {
                 Nps0 = j;
                 break;
